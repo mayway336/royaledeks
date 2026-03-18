@@ -5,572 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clash Royale Deck Generator</title>
     <style>
-        :root {
-            --primary-color: #4a90d9;
-            --secondary-color: #357abd;
-            --background-color: #1a1a2e;
-            --card-background: #16213e;
-            --text-color: #eee;
-            --success-color: #4caf50;
-            --error-color: #f44336;
-            --warning-color: #ff9800;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--background-color) 0%, #0f0f23 100%);
-            color: var(--text-color);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            padding: 30px 0;
-            border-bottom: 2px solid var(--primary-color);
-            margin-bottom: 30px;
-        }
-
-        header h1 {
-            font-size: 2.5em;
-            color: var(--primary-color);
-            text-shadow: 0 0 20px rgba(74, 144, 217, 0.5);
-        }
-
-        header p {
-            color: #aaa;
-            margin-top: 10px;
-        }
-
-        .status-bar {
-            background: var(--card-background);
-            padding: 15px 25px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        .status-indicator.ready {
-            background: var(--success-color);
-        }
-
-        .status-indicator.loading {
-            background: var(--warning-color);
-        }
-
-        .status-indicator.error {
-            background: var(--error-color);
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .controls {
-            background: var(--card-background);
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-        }
-
-        .controls-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .control-group label {
-            font-weight: 600;
-            color: #ccc;
-        }
-
-        .control-group input,
-        .control-group select {
-            padding: 12px;
-            border: 2px solid #333;
-            border-radius: 8px;
-            background: #0f0f23;
-            color: var(--text-color);
-            font-size: 1em;
-            transition: border-color 0.3s;
-        }
-
-        .control-group input:focus,
-        .control-group select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 0;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        .generate-btn {
-            width: 100%;
-            padding: 15px 30px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.2em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .generate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(74, 144, 217, 0.4);
-        }
-
-        .generate-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .decks-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-        }
-
-        .deck-card {
-            background: var(--card-background);
-            border-radius: 15px;
-            padding: 25px;
-            border: 2px solid #333;
-            transition: border-color 0.3s, transform 0.2s;
-        }
-
-        .deck-card:hover {
-            border-color: var(--primary-color);
-            transform: translateY(-5px);
-        }
-
-        .deck-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #333;
-        }
-
-        .deck-title {
-            font-size: 1.2em;
-            font-weight: 600;
-        }
-
-        .deck-stats {
-            display: flex;
-            gap: 15px;
-            font-size: 0.9em;
-            color: #aaa;
-        }
-
-        .deck-stats span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .card-item {
-            background: #0f0f23;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            transition: background 0.3s;
-        }
-
-        .card-item:hover {
-            background: #1a1a3e;
-        }
-
-        .card-name {
-            font-size: 0.75em;
-            color: #ccc;
-            margin-top: 5px;
-            word-break: break-word;
-        }
-
-        .card-elixir {
-            display: inline-block;
-            background: #e91e63;
-            color: white;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            font-size: 0.8em;
-            font-weight: bold;
-            line-height: 20px;
-        }
-
-        .card-special {
-            position: relative;
-        }
-
-        .card-special::after {
-            content: '⚡';
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            font-size: 0.8em;
-        }
-
-        .card-hero::after {
-            content: '👑';
-        }
-
-        .card-champion::after {
-            content: '🏆';
-        }
-
-        .deck-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 15px;
-            border-top: 1px solid #333;
-        }
-
-        .validity-badge {
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 600;
-        }
-
-        .validity-badge.valid {
-            background: rgba(76, 175, 80, 0.2);
-            color: var(--success-color);
-        }
-
-        .validity-badge.invalid {
-            background: rgba(244, 67, 54, 0.2);
-            color: var(--error-color);
-        }
-
-        .special-info {
-            font-size: 0.85em;
-            color: #aaa;
-        }
-
-        .loading-spinner {
-            display: none;
-            text-align: center;
-            padding: 50px;
-        }
-
-        .loading-spinner.active {
-            display: block;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #333;
-            border-top-color: var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .error-message {
-            background: rgba(244, 67, 54, 0.1);
-            border: 2px solid var(--error-color);
-            color: var(--error-color);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            display: none;
-        }
-
-        .error-message.active {
-            display: block;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            margin-top: 50px;
-            border-top: 1px solid #333;
-            color: #666;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.8em;
-            }
-
-            .cards-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 5px;
-            }
-
-            .card-name {
-                font-size: 0.65em;
-            }
-
-            .decks-container {
-                grid-template-columns: 1fr;
-            }
-        }
+        body { font-family: Arial, sans-serif; background:#0f172a; color:#e2e8f0; margin:0; }
+        .container { max-width:1100px; margin:0 auto; padding:24px; }
+        .panel { background:#1e293b; border-radius:12px; padding:16px; margin-bottom:16px; }
+        label { display:block; margin-bottom:6px; font-weight:700; }
+        select,input,button { width:100%; padding:10px; border-radius:8px; border:1px solid #475569; background:#0f172a; color:#e2e8f0; }
+        .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+        .deck { border:1px solid #334155; border-radius:10px; padding:12px; margin-bottom:12px; }
+        .cards { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+        .card { background:#0b1223; border-radius:8px; padding:8px; font-size:13px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>⚔️ Clash Royale Deck Generator</h1>
-            <p>ML-генератор колод на основе Transformer Decoder</p>
-        </header>
-
-        <div class="status-bar">
-            <div class="status-item">
-                <div class="status-indicator {{ 'ready' if model_loaded else 'error' }}" id="statusIndicator"></div>
-                <span id="statusText">{{ 'Модель загружена' if model_loaded else 'Модель не загружена' }}</span>
-            </div>
-            <div class="status-item">
-                <span id="statsInfo">Загрузка статистики...</span>
+<div class="container">
+    <h1>⚔️ Clash Royale Deck Generator</h1>
+    <div class="panel">
+        <div class="grid">
+            <div>
+                <label for="numDecks">Количество колод</label>
+                <input id="numDecks" type="number" value="3" min="1" max="20">
             </div>
         </div>
-
-        <div class="error-message" id="errorMessage"></div>
-
-        <div class="controls">
-            <div class="controls-grid">
-                <div class="control-group">
-                    <label for="numDecks">Количество колод</label>
-                    <input type="number" id="numDecks" value="4" min="1" max="20">
-                </div>
-                <div class="control-group">
-                    <label for="temperature">Температура</label>
-                    <input type="number" id="temperature" value="1.0" min="0.1" max="2.0" step="0.1">
-                </div>
-                <div class="control-group">
-                    <label for="topK">Top-K</label>
-                    <input type="number" id="topK" value="50" min="1" max="100">
-                </div>
-                <div class="control-group">
-                    <label for="seed">Seed (опционально)</label>
-                    <input type="number" id="seed" placeholder="Случайный" min="0">
-                </div>
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="useRuleEngine" checked>
-                <label for="useRuleEngine">Использовать Rule Engine (валидация слотов)</label>
-            </div>
-            <button class="generate-btn" id="generateBtn" onclick="generateDecks()">
-                🎴 Сгенерировать колоды
-            </button>
-        </div>
-
-        <div class="loading-spinner" id="loadingSpinner">
-            <div class="spinner"></div>
-            <p>Генерация колод...</p>
-        </div>
-
-        <div class="decks-container" id="decksContainer"></div>
-
-        <footer>
-            <p>Clash Royale Deck Generator © 2024 | Powered by Transformer ML</p>
-        </footer>
     </div>
 
-    <script>
-        // Проверка статуса модели при загрузке
-        document.addEventListener('DOMContentLoaded', async () => {
-            await checkStats();
+    <div class="panel">
+        <h3>Входные карты (0-7, по слотам 1..7)</h3>
+        <div class="grid" id="inputSlots"></div>
+        <button onclick="generateDecks()" style="margin-top:12px;">🎴 Сгенерировать</button>
+    </div>
+
+    <div class="panel">
+        <strong id="status">Загрузка...</strong>
+    </div>
+
+    <div id="decks"></div>
+</div>
+
+<script>
+let cards = [];
+
+async function init() {
+    const stats = await fetch('/api/stats').then(r => r.json());
+    document.getElementById('status').textContent = stats.model_loaded
+        ? `Готово: карт ${stats.vocab_size}`
+        : 'Нет данных для генерации';
+
+    const payload = await fetch('/api/cards').then(r => r.json());
+    cards = payload.cards || [];
+
+    const slots = document.getElementById('inputSlots');
+    for (let i = 0; i < 7; i++) {
+        const wrap = document.createElement('div');
+        wrap.innerHTML = `<label>Слот ${i+1}</label><select id="slot_${i}"><option value="">-- Пусто --</option></select>`;
+        slots.appendChild(wrap);
+        const sel = wrap.querySelector('select');
+        cards.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.card_id;
+            const evo = c.is_evolution ? ' [EVO]' : '';
+            const hero = (c.is_hero || c.is_champion) ? ' [HERO]' : '';
+            opt.textContent = `${c.name}${evo}${hero}`;
+            sel.appendChild(opt);
         });
+    }
+}
 
-        async function checkStats() {
-            try {
-                const response = await fetch('/api/stats');
-                const stats = await response.json();
-                
-                const statusIndicator = document.getElementById('statusIndicator');
-                const statusText = document.getElementById('statusText');
-                const statsInfo = document.getElementById('statsInfo');
-                
-                if (stats.status === 'ok') {
-                    statusIndicator.className = 'status-indicator ready';
-                    statusText.textContent = 'Модель готова';
-                    statsInfo.textContent = `Карт: ${stats.vocab_size} | Слоёв: ${stats.config.num_layers}`;
-                } else {
-                    statusIndicator.className = 'status-indicator error';
-                    statusText.textContent = 'Требуется обучение';
-                    statsInfo.textContent = 'Запустите train_model.py';
-                }
-            } catch (error) {
-                console.error('Ошибка проверки статуса:', error);
-            }
-        }
+async function generateDecks() {
+    const input_cards = [];
+    for (let i = 0; i < 7; i++) {
+        const value = document.getElementById(`slot_${i}`).value;
+        if (!value) break;
+        input_cards.push(parseInt(value));
+    }
 
-        async function generateDecks() {
-            const btn = document.getElementById('generateBtn');
-            const spinner = document.getElementById('loadingSpinner');
-            const container = document.getElementById('decksContainer');
-            const errorDiv = document.getElementById('errorMessage');
-            
-            // Сброс
-            errorDiv.classList.remove('active');
-            container.innerHTML = '';
-            btn.disabled = true;
-            spinner.classList.add('active');
-            
-            // Сбор параметров
-            const requestData = {
-                num_decks: parseInt(document.getElementById('numDecks').value),
-                temperature: parseFloat(document.getElementById('temperature').value),
-                top_k: parseInt(document.getElementById('topK').value),
-                use_rule_engine: document.getElementById('useRuleEngine').checked
-            };
-            
-            const seedValue = document.getElementById('seed').value;
-            if (seedValue) {
-                requestData.seed = parseInt(seedValue);
-            }
-            
-            try {
-                const response = await fetch('/api/generate', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(requestData)
-                });
-                
-                if (!response.ok) {
-                    const error = await response.json();
-                    throw new Error(error.detail || 'Ошибка генерации');
-                }
-                
-                const result = await response.json();
-                renderDecks(result.decks);
-                
-            } catch (error) {
-                errorDiv.textContent = 'Ошибка: ' + error.message;
-                errorDiv.classList.add('active');
-            } finally {
-                btn.disabled = false;
-                spinner.classList.remove('active');
-            }
-        }
+    const body = {
+        num_decks: parseInt(document.getElementById('numDecks').value),
+        input_cards
+    };
 
-        function renderDecks(decks) {
-            const container = document.getElementById('decksContainer');
-            
-            decks.forEach((deck, index) => {
-                const cardItems = deck.cards.map((cardName, i) => {
-                    const cardId = deck.card_ids[i];
-                    const isSpecial = deck.special_cards.evolutions > 0 || 
-                                     deck.special_cards.heroes > 0 || 
-                                     deck.special_cards.champions > 0;
-                    
-                    // Получаем информацию об эликсире из названия (упрощённо)
-                    const elixir = Math.floor(Math.random() * 7) + 1;
-                    
-                    let specialClass = '';
-                    if (isSpecial) {
-                        // Простая эвристика для демонстрации
-                        if (i < deck.special_cards.evolutions) specialClass = 'card-special';
-                        else if (i < deck.special_cards.evolutions + deck.special_cards.heroes) specialClass = 'card-hero';
-                        else if (i < deck.special_cards.evolutions + deck.special_cards.heroes + deck.special_cards.champions) specialClass = 'card-champion';
-                    }
-                    
-                    return `
-                        <div class="card-item ${specialClass}">
-                            <span class="card-elixir">${elixir}</span>
-                            <div class="card-name">${cardName}</div>
-                        </div>
-                    `;
-                }).join('');
-                
-                const validityClass = deck.is_valid ? 'valid' : 'invalid';
-                const validityText = deck.is_valid ? '✓ Валидна' : '✗ ' + deck.validation_message;
-                
-                const specialInfo = [];
-                if (deck.special_cards.evolutions > 0) specialInfo.push(`Эволюции: ${deck.special_cards.evolutions}`);
-                if (deck.special_cards.heroes > 0) specialInfo.push(`Герои: ${deck.special_cards.heroes}`);
-                if (deck.special_cards.champions > 0) specialInfo.push(`Чемпионы: ${deck.special_cards.champions}`);
-                
-                const html = `
-                    <div class="deck-card">
-                        <div class="deck-header">
-                            <div class="deck-title">Колода #${index + 1}</div>
-                            <div class="deck-stats">
-                                <span>💧 ${deck.avg_elixir}</span>
-                            </div>
-                        </div>
-                        <div class="cards-grid">
-                            ${cardItems}
-                        </div>
-                        <div class="deck-footer">
-                            <span class="validity-badge ${validityClass}">${validityText}</span>
-                            <span class="special-info">${specialInfo.join(' | ') || 'Обычные карты'}</span>
-                        </div>
-                    </div>
-                `;
-                
-                container.innerHTML += html;
-            });
-        }
-    </script>
+    const decksEl = document.getElementById('decks');
+    decksEl.innerHTML = 'Генерация...';
+
+    const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(body)
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+        decksEl.innerHTML = `<div class="panel">Ошибка: ${data.detail || 'unknown'}</div>`;
+        return;
+    }
+
+    decksEl.innerHTML = data.decks.map((d, idx) => `
+        <div class="deck">
+            <h3>Колода #${idx + 1} | 💧${d.avg_elixir}</h3>
+            <div>Валидация: ${d.validation_message}</div>
+            <div class="cards">
+                ${d.cards.map((c, i) => `<div class="card">${i+1}. ${c}</div>`).join('')}
+            </div>
+        </div>
+    `).join('');
+}
+
+init();
+</script>
 </body>
 </html>

@@ -61,6 +61,7 @@ class Database:
             CREATE TABLE IF NOT EXISTS cards (
                 card_id INTEGER PRIMARY KEY,
                 name TEXT UNIQUE NOT NULL,
+                base_name TEXT,
                 elixir_cost REAL NOT NULL,
                 rarity TEXT NOT NULL CHECK(rarity IN (
                     'Common', 'Rare', 'Epic', 'Legendary', 'Champion'
@@ -70,10 +71,15 @@ class Database:
                 )),
                 is_evolveable BOOLEAN NOT NULL DEFAULT 0,
                 is_hero BOOLEAN NOT NULL DEFAULT 0,
+                is_champion BOOLEAN NOT NULL DEFAULT 0,
+                is_evolution BOOLEAN NOT NULL DEFAULT 0,
                 icon_url TEXT,
+                source TEXT DEFAULT 'fandom',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
+        self._ensure_cards_columns()
+        self.cursor.execute("CREATE INDEX IF NOT EXISTS idx_cards_base_name ON cards(base_name)")
         
         # Таблица колод
         self.cursor.execute("""
@@ -122,6 +128,19 @@ class Database:
         
         self.conn.commit()
         logger.info("Таблицы БД созданы")
+
+    def _ensure_cards_columns(self) -> None:
+        """Добавление новых колонок в существующую таблицу cards (миграция без Alembic)."""
+        self.cursor.execute("PRAGMA table_info(cards)")
+        existing_cols = {row["name"] for row in self.cursor.fetchall()}
+        for name, ddl in [
+            ("base_name", "ALTER TABLE cards ADD COLUMN base_name TEXT"),
+            ("is_champion", "ALTER TABLE cards ADD COLUMN is_champion BOOLEAN NOT NULL DEFAULT 0"),
+            ("is_evolution", "ALTER TABLE cards ADD COLUMN is_evolution BOOLEAN NOT NULL DEFAULT 0"),
+            ("source", "ALTER TABLE cards ADD COLUMN source TEXT DEFAULT 'fandom'"),
+        ]:
+            if name not in existing_cols:
+                self.cursor.execute(ddl)
     
     def insert_card(self, card_data: Dict[str, Any]) -> int:
         """
@@ -138,17 +157,25 @@ class Database:
         
         self.cursor.execute("""
             INSERT OR REPLACE INTO cards 
-            (card_id, name, elixir_cost, rarity, type, is_evolveable, is_hero, icon_url)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            (
+                card_id, name, base_name, elixir_cost, rarity, type,
+                is_evolveable, is_hero, is_champion, is_evolution,
+                icon_url, source
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             card_data['card_id'],
             card_data['name'],
+            card_data.get('base_name', None),
             card_data['elixir_cost'],
             card_data['rarity'],
             card_data['type'],
             card_data.get('is_evolveable', False),
             card_data.get('is_hero', False),
-            card_data.get('icon_url', None)
+            card_data.get('is_champion', False),
+            card_data.get('is_evolution', False),
+            card_data.get('icon_url', None),
+            card_data.get('source', 'fandom')
         ))
         
         self.conn.commit()
