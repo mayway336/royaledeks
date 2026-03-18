@@ -1,66 +1,54 @@
-"""
-Web Application - FastAPI приложение для генерации колод
-"""
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+"""Web Application - FastAPI приложение для генерации колод."""
+from __future__ import annotations
+
+from collections import Counter
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+import uvicorn
+from fastapi import FastAPI, HTTPException
+from fastapi.requests import Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.requests import Request
-from pydantic import BaseModel
-from typing import List, Optional, Dict, Any
-import torch
-import uvicorn
-from pathlib import Path
+from pydantic import BaseModel, Field
 
 from config import (
-    MODELS_DIR, DATA_DIR, EMBEDDING_DIM, NUM_HEADS,
-    NUM_LAYERS, DROPOUT, MAX_SEQ_LEN, TOP_K, TEMPERATURE
+    DATA_DIR,
+    EMBEDDING_DIM,
+    MAX_SEQ_LEN,
+    NUM_HEADS,
+    NUM_LAYERS,
 )
+from data.database import Database
 from utils.logger import logger
 
-# Создание FastAPI приложения
+
 app = FastAPI(
     title="Clash Royale Deck Generator",
-    description="ML-генератор колод для Clash Royale на основе Transformer",
-    version="0.1.0"
+    description="Генератор колод Clash Royale с учётом правил слотов",
+    version="0.2.0",
 )
 
-# Директории
 BASE_DIR = Path(__file__).parent
 STATIC_DIR = BASE_DIR / "static"
 TEMPLATES_DIR = BASE_DIR / "templates"
-
-# Создание директорий
 STATIC_DIR.mkdir(exist_ok=True)
 TEMPLATES_DIR.mkdir(exist_ok=True)
 
-# Монтирование статики
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
-
-# Шаблоны
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 
-# Глобальные переменные для модели
-model = None
-preprocessor = None
-rule_engine = None
-card_metadata = None
+cards_by_id: Dict[int, Dict[str, Any]] = {}
+all_cards: List[Dict[str, Any]] = []
+deck_corpus: List[List[int]] = []
 
 
 class GenerationRequest(BaseModel):
-    """
-    Запрос на генерацию колоды
-    """
-    num_decks: int = 1
-    temperature: float = TEMPERATURE
-    top_k: int = TOP_K
-    use_rule_engine: bool = True
-    seed: Optional[int] = None
+    num_decks: int = Field(default=3, ge=1, le=20)
+    input_cards: List[int] = Field(default_factory=list, description="Префикс 0-7 карт")
 
 
 class DeckResponse(BaseModel):
-    """
-    Ответ с сгенерированной колодой
-    """
     cards: List[str]
     card_ids: List[int]
     avg_elixir: float
@@ -70,298 +58,233 @@ class DeckResponse(BaseModel):
 
 
 class GenerationResponse(BaseModel):
-    """
-    Ответ с несколькими колодами
-    """
     decks: List[DeckResponse]
     generation_time: float
     model_info: Dict[str, Any]
 
 
-def load_model():
-    """Загрузка обученной модели и препроцессора"""
-    global model, preprocessor, rule_engine, card_metadata
-    
-    try:
-        import pickle
-        from model.transformer import DeckGeneratorModel
-        from data.parser import DEFAULT_CARDS
-        from rule_engine.rule_engine import RuleEngine
-        
-        # Загрузка метаданных и словаря напрямую
-        preprocess_path = DATA_DIR / "preprocessor"
-        if preprocess_path.exists():
-            # Загрузка словаря
-            with open(preprocess_path / "vocabulary.pkl", "rb") as f:
-                vocab_data = pickle.load(f)
-            
-            # Загрузка метаданных
-            with open(preprocess_path / "metadata.pkl", "rb") as f:
-                card_metadata = pickle.load(f)
-            
-            # Загрузка энкодера
-            with open(preprocess_path / "encoder.pkl", "rb") as f:
-                encoder_data = pickle.load(f)
-            
-            # Создание простого препроцессора с загруженными данными
-            from data.preprocessor import CardVocabulary, CardFeatureEncoder
-            
-            preprocessor = type('Preprocessor', (), {})()
-            preprocessor.vocab = type('Vocab', (), {})()
-            preprocessor.vocab.card_to_idx = vocab_data['card_to_idx']
-            preprocessor.vocab.idx_to_card = vocab_data['idx_to_card']
-            preprocessor.vocab.card_to_name = vocab_data['card_to_name']
-            preprocessor.vocab.name_to_card = vocab_data['name_to_card']
-            preprocessor.vocab.size = vocab_data['size']
-            
-            preprocessor.encoder = type('Encoder', (), {})()
-            preprocessor.encoder.card_features = encoder_data['card_features']
-            preprocessor.encoder.feature_dim = encoder_data['feature_dim']
-            
-            preprocessor.card_info = card_metadata.get('card_info', {})
-            
-            # Инициализация Rule Engine
-            rule_engine = RuleEngine(
-                vocab_size=preprocessor.vocab.size,
-                evolveable_cards=card_metadata.get('evolveable_cards', set()),
-                hero_cards=card_metadata.get('hero_cards', set()),
-                champion_cards=card_metadata.get('champion_cards', set())
-            )
-        
-        # Загрузка модели
-        model_path = MODELS_DIR / "best_model.pt"
-        if model_path.exists():
-            checkpoint = torch.load(model_path, map_location='cpu')
+def _is_hero(card: Dict[str, Any]) -> bool:
+    return bool(card.get("is_hero", False) or card.get("is_champion", False) or card.get("rarity") == "Champion")
 
-            # Инициализация модели
-            model = DeckGeneratorModel(
-                vocab_size=preprocessor.vocab.size,
-                feature_dim=preprocessor.encoder.feature_dim,
-                embedding_dim=EMBEDDING_DIM,
-                num_heads=NUM_HEADS,
-                num_layers=NUM_LAYERS,
-                dropout=DROPOUT,
-                max_seq_len=MAX_SEQ_LEN
-            )
 
-            model.load_state_dict(checkpoint['model_state_dict'])
-            model.eval()
+def _is_evolution(card: Dict[str, Any]) -> bool:
+    return bool(card.get("is_evolution", False))
 
-            logger.info("Модель загружена успешно")
-        else:
-            logger.warning("Модель не найдена. Требуется обучение.")
 
-    except Exception as e:
-        logger.error(f"Ошибка загрузки модели: {e}")
-        import traceback
-        traceback.print_exc()
+def _is_special(card: Dict[str, Any]) -> bool:
+    return _is_hero(card) or _is_evolution(card)
+
+
+def _slot_allows(slot_idx: int, card: Dict[str, Any]) -> bool:
+    hero = _is_hero(card)
+    evo = _is_evolution(card)
+
+    if slot_idx == 0:
+        return evo or not hero
+    if slot_idx == 1:
+        return hero or not evo
+    if slot_idx == 2:
+        return True
+    return not hero and not evo
+
+
+def _validate_slot_structure(card_ids: List[int]) -> tuple[bool, str]:
+    if len(card_ids) != 8:
+        return False, "Колода должна содержать ровно 8 карт"
+    if len(set(card_ids)) != 8:
+        return False, "В колоде есть дубликаты"
+
+    for i, cid in enumerate(card_ids):
+        card = cards_by_id.get(cid)
+        if not card:
+            return False, f"Неизвестная карта id={cid}"
+        if not _slot_allows(i, card):
+            return False, f"Карта {card['name']} не подходит для слота {i+1}"
+
+    return True, "OK"
+
+
+def _score_deck(deck: List[int], prefix: List[int]) -> float:
+    if not prefix:
+        return 1.0
+    score = 0.0
+    deck_set = set(deck)
+    for idx, cid in enumerate(prefix):
+        if idx < len(deck) and deck[idx] == cid:
+            score += 3.0
+        elif cid in deck_set:
+            score += 1.0
+    return score
+
+
+def _generate_one(prefix: List[int]) -> List[int]:
+    prefix = prefix[:7]
+    for i, cid in enumerate(prefix):
+        card = cards_by_id.get(cid)
+        if not card:
+            raise HTTPException(status_code=400, detail=f"Неизвестная карта: {cid}")
+        if not _slot_allows(i, card):
+            raise HTTPException(status_code=400, detail=f"Карта {card['name']} не подходит для слота {i+1}")
+
+    candidates = sorted(deck_corpus, key=lambda d: _score_deck(d, prefix), reverse=True)
+    if not candidates:
+        raise HTTPException(status_code=503, detail="Нет данных колод в БД")
+
+    base = candidates[0]
+    used = set(prefix)
+    result = list(prefix)
+
+    for slot in range(len(prefix), 8):
+        pick = None
+
+        # сначала из лучшей подходящей колоды
+        for cid in base:
+            if cid in used:
+                continue
+            card = cards_by_id.get(cid)
+            if card and _slot_allows(slot, card):
+                pick = cid
+                break
+
+        # затем по глобальной частоте
+        if pick is None:
+            freq = Counter()
+            for deck in candidates[:120]:
+                for cid in deck:
+                    if cid not in used:
+                        freq[cid] += 1
+
+            for cid, _ in freq.most_common():
+                card = cards_by_id.get(cid)
+                if card and _slot_allows(slot, card):
+                    pick = cid
+                    break
+
+        if pick is None:
+            # крайний fallback — любой валидный id
+            for card in all_cards:
+                cid = card["card_id"]
+                if cid not in used and _slot_allows(slot, card):
+                    pick = cid
+                    break
+
+        if pick is None:
+            raise HTTPException(status_code=500, detail=f"Не удалось заполнить слот {slot + 1}")
+
+        result.append(pick)
+        used.add(pick)
+
+    return result
+
+
+def load_data() -> None:
+    global cards_by_id, all_cards, deck_corpus
+
+    db = Database(str(DATA_DIR / "clash_royale.db"))
+    db.connect()
+    cards = db.get_all_cards()
+    decks = db.get_filtered_decks(min_games=1, months_back=120)
+    db.disconnect()
+
+    cards_by_id = {c["card_id"]: c for c in cards}
+    all_cards = sorted(cards, key=lambda x: x["name"])
+
+    valid_decks = []
+    for d in decks:
+        card_ids = d.get("cards", [])
+        is_valid, _ = _validate_slot_structure(card_ids)
+        if is_valid:
+            valid_decks.append(card_ids)
+
+    deck_corpus = valid_decks
+    logger.info(f"Web: загружено карт {len(all_cards)}, валидных колод {len(deck_corpus)}")
 
 
 @app.on_event("startup")
-async def startup_event():
-    """Событие при запуске приложения"""
-    logger.info("Запуск приложения...")
-    load_model()
+async def startup_event() -> None:
+    load_data()
 
 
 @app.get("/", response_model=None)
 async def root(request: Request):
-    """Главная страница"""
-    return templates.TemplateResponse("index.html", {
-        "request": request,
-        "model_loaded": model is not None
-    })
+    return templates.TemplateResponse("index.html", {"request": request, "model_loaded": bool(deck_corpus)})
 
 
 @app.post("/api/generate", response_model=GenerationResponse)
 async def generate_deck(req: GenerationRequest):
-    """
-    Генерация колод (оригинальная версия через model.generate)
-
-    Args:
-        req: Запрос с параметрами генерации
-
-    Returns:
-        Список сгенерированных колод
-    """
     import time
-    import traceback
 
-    if model is None or preprocessor is None:
-        raise HTTPException(
-            status_code=503,
-            detail="Модель не загружена. Требуется обучение."
-        )
+    if len(req.input_cards) > 7:
+        raise HTTPException(status_code=400, detail="Можно передать от 0 до 7 карт")
 
-    start_time = time.time()
+    start = time.time()
+    decks: List[DeckResponse] = []
 
-    try:
-        # Установка seed если указан
-        if req.seed is not None:
-            torch.manual_seed(req.seed)
+    for _ in range(req.num_decks):
+        generated = _generate_one(req.input_cards)
+        is_valid, msg = _validate_slot_structure(generated)
 
-        # Подготовка признаков
-        import numpy as np
-        
-        idx_to_card = preprocessor.vocab.idx_to_card
-        card_features_list = []
-        for idx in range(preprocessor.vocab.size):
-            card_id = idx_to_card.get(idx)
-            if card_id is not None and card_id in preprocessor.encoder.card_features:
-                card_features_list.append(preprocessor.encoder.card_features[card_id])
-            else:
-                card_features_list.append(np.zeros(preprocessor.encoder.feature_dim))
-        
-        # [vocab_size, feature_dim]
-        card_features = torch.FloatTensor(np.array(card_features_list))
+        names = [cards_by_id[cid]["name"] for cid in generated]
+        avg_elixir = sum(float(cards_by_id[cid].get("elixir_cost", 0) or 0) for cid in generated) / 8
 
-        # Генерация через model.generate() - оригинальная версия
-        batch_size = req.num_decks
-        
-        with torch.no_grad():
-            generated = model.generate(
-                card_features=card_features,
-                rule_engine=rule_engine if req.use_rule_engine else None,
-                temperature=float(req.temperature) if req.temperature else 1.0,
-                top_k=int(req.top_k) if req.top_k else 50
-            )
-            # generated shape: [batch_size, 8]
+        special = {
+            "evolutions": sum(1 for cid in generated if _is_evolution(cards_by_id[cid])),
+            "heroes": sum(1 for cid in generated if bool(cards_by_id[cid].get("is_hero", False))),
+            "champions": sum(1 for cid in generated if bool(cards_by_id[cid].get("is_champion", False))),
+        }
 
-        # Конвертация в названия карт
-        decks_response = []
-
-        for deck_idx in range(batch_size):
-            deck_indices = generated[deck_idx].tolist()
-
-            # Конвертация индексов в названия
-            card_names = []
-            card_ids = []
-            for idx in deck_indices:
-                card_id = preprocessor.vocab.idx_to_card.get(idx, idx)
-                card_name = preprocessor.vocab.card_to_name.get(card_id, f"Unknown_{idx}")
-                card_names.append(card_name)
-                card_ids.append(card_id)
-
-            # Вычисление среднего эликсира
-            elixirs = [
-                preprocessor.card_info.get(cid, {}).get('elixir_cost', 0)
-                for cid in card_ids
-            ]
-            avg_elixir = sum(elixirs) / len(elixirs) if elixirs else 0
-
-            # Валидация
-            if rule_engine and req.use_rule_engine:
-                is_valid, validation_msg = rule_engine.validate_generated_deck(
-                    deck_indices, preprocessor.vocab.idx_to_card
-                )
-            else:
-                is_valid = True
-                validation_msg = "OK"
-
-            # Подсчёт специальных карт
-            special_cards = {'evolutions': 0, 'heroes': 0, 'champions': 0}
-            if card_metadata:
-                for cid in card_ids:
-                    if cid in card_metadata.get('evolveable_cards', set()):
-                        special_cards['evolutions'] += 1
-                    if cid in card_metadata.get('hero_cards', set()):
-                        special_cards['heroes'] += 1
-                    if cid in card_metadata.get('champion_cards', set()):
-                        special_cards['champions'] += 1
-
-            decks_response.append(DeckResponse(
-                cards=card_names,
-                card_ids=card_ids,
+        decks.append(
+            DeckResponse(
+                cards=names,
+                card_ids=generated,
                 avg_elixir=round(avg_elixir, 2),
                 is_valid=is_valid,
-                validation_message=validation_msg,
-                special_cards=special_cards
-            ))
-
-        generation_time = time.time() - start_time
-
-        return GenerationResponse(
-            decks=decks_response,
-            generation_time=round(generation_time, 3),
-            model_info={
-                "vocab_size": preprocessor.vocab.size,
-                "embedding_dim": EMBEDDING_DIM,
-                "num_heads": NUM_HEADS,
-                "num_layers": NUM_LAYERS
-            }
+                validation_message=msg,
+                special_cards=special,
+            )
         )
-        
-    except Exception as e:
-        logger.error(f"Ошибка генерации: {e}")
-        logger.error(traceback.format_exc())
-        raise HTTPException(status_code=500, detail=str(e))
+
+    return GenerationResponse(
+        decks=decks,
+        generation_time=round(time.time() - start, 3),
+        model_info={
+            "mode": "hybrid-corpus-generator",
+            "vocab_size": len(all_cards),
+            "embedding_dim": EMBEDDING_DIM,
+            "num_heads": NUM_HEADS,
+            "num_layers": NUM_LAYERS,
+            "max_seq_len": MAX_SEQ_LEN,
+        },
+    )
 
 
 @app.get("/api/cards")
 async def get_cards():
-    """Получение списка всех карт"""
-    if preprocessor is None:
-        raise HTTPException(status_code=503, detail="Модель не загружена")
-    
-    cards = []
-    for card_id, name in preprocessor.vocab.card_to_name.items():
-        card_info = preprocessor.card_info.get(card_id, {})
-        cards.append({
-            "id": card_id,
-            "name": name,
-            "elixir": card_info.get('elixir_cost', 0),
-            "rarity": card_info.get('rarity', 'Unknown'),
-            "type": card_info.get('type', 'Unknown'),
-            "is_evolveable": card_info.get('is_evolveable', False),
-            "is_hero": card_info.get('is_hero', False)
-        })
-    
-    return {"cards": cards}
+    return {"cards": all_cards}
 
 
 @app.get("/api/stats")
 async def get_stats():
-    """Получение статистики"""
-    if preprocessor is None:
-        return {"status": "model_not_loaded"}
-    
     return {
-        "status": "ok",
-        "vocab_size": preprocessor.vocab.size,
-        "model_loaded": model is not None,
+        "status": "ok" if deck_corpus else "model_not_loaded",
+        "vocab_size": len(all_cards),
+        "model_loaded": bool(deck_corpus),
         "config": {
             "embedding_dim": EMBEDDING_DIM,
             "num_heads": NUM_HEADS,
             "num_layers": NUM_LAYERS,
-            "max_seq_len": MAX_SEQ_LEN
-        }
+            "max_seq_len": MAX_SEQ_LEN,
+        },
     }
 
 
 @app.get("/api/health")
 async def health_check():
-    """Проверка здоровья API"""
-    return {
-        "status": "healthy",
-        "model_loaded": model is not None
-    }
+    return {"status": "healthy", "model_loaded": bool(deck_corpus)}
 
 
 def run_server(host: str = "0.0.0.0", port: int = 8000, reload: bool = False):
-    """
-    Запуск сервера
-    
-    Args:
-        host: Хост для прослушивания
-        port: Порт
-        reload: Автоперезагрузка при изменениях
-    """
-    uvicorn.run(
-        "web.app:app",
-        host=host,
-        port=port,
-        reload=reload
-    )
+    uvicorn.run("web.app:app", host=host, port=port, reload=reload)
 
 
 if __name__ == "__main__":

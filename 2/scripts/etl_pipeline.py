@@ -14,6 +14,15 @@ from data.parser import ClashRoyaleAPI
 from utils.logger import logger
 
 
+def _normalize_card_name(name: str) -> str:
+    import re
+    cleaned = name.strip().lower()
+    cleaned = cleaned.replace(".", "")
+    cleaned = cleaned.replace("'", "")
+    cleaned = re.sub(r"\\s+", " ", cleaned)
+    return cleaned
+
+
 def run_etl():
     """Запуск ETL процесса"""
     logger.info("=" * 50)
@@ -41,9 +50,11 @@ def run_etl():
         
         # Сохранение карт в БД
         logger.info(f"Сохранение {len(cards)} карт в БД...")
+        db_name_to_id = {}
         for card in cards:
             db.insert_card(card)
-        
+            db_name_to_id[_normalize_card_name(card["name"])] = card["card_id"]
+
         logger.info(f"✓ Карты сохранены: {len(cards)}")
         
         # Загрузка колод
@@ -62,7 +73,10 @@ def run_etl():
             # Конвертация названий карт в ID
             card_ids = []
             for card_name in deck.get('cards', []):
-                card_id = db.get_card_id_by_name(card_name)
+                normalized = _normalize_card_name(card_name)
+                card_id = db_name_to_id.get(normalized)
+                if not card_id:
+                    card_id = db.get_card_id_by_name(card_name)
                 if not card_id:
                     # Поиск по частичному совпадению
                     card_id = db.get_card_id_by_partial_name(card_name)

@@ -1,281 +1,339 @@
 """
-Веб-парсер для сбора данных о картах и колодах Clash Royale
-
-Источники:
-- Встроенная база карт (основной источник)
-- Clash Royale Fandom Wiki (дополнительно)
-- RoyaleAPI / DeckShop (публичные данные)
-
-Примечание: Некоторые сайты могут блокировать автоматические запросы.
-В этом случае используются встроенные данные.
+Парсеры данных Clash Royale:
+1) Карты из Clash Royale Fandom (через MediaWiki API + HTML таблицы)
+2) Колоды из RoyaleAPI и DeckShop с унифицированным форматом
 """
-import requests
-from bs4 import BeautifulSoup
-from typing import List, Dict, Any, Optional
-from datetime import datetime
+from __future__ import annotations
+
 import re
 import time
-import random
+import hashlib
 import json
+from datetime import datetime
+from typing import Any, Dict, List, Optional, Tuple
+
+import requests
+from bs4 import BeautifulSoup, Tag
 
 try:
     import cloudscraper
     HAS_CLOUDSCRAPER = True
-except ImportError:
+except ImportError:  # pragma: no cover
     HAS_CLOUDSCRAPER = False
 
-from config import (
-    REQUEST_DELAY, MAX_RETRIES, TIMEOUT,
-    MIN_GAMES_PLAYED
-)
+from config import REQUEST_DELAY, MAX_RETRIES, TIMEOUT, MIN_GAMES_PLAYED
 from utils.logger import logger
 
 
-# Встроенная база карт Clash Royale
-DEFAULT_CARDS = [
-    # Troops - Common
-    {'card_id': 1, 'name': 'Knight', 'elixir_cost': 3, 'rarity': 'Common', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 2, 'name': 'Archers', 'elixir_cost': 3, 'rarity': 'Common', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 3, 'name': 'Goblins', 'elixir_cost': 2, 'rarity': 'Common', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 4, 'name': 'Skeletons', 'elixir_cost': 1, 'rarity': 'Common', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 5, 'name': 'Ice Spirit', 'elixir_cost': 1, 'rarity': 'Common', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 6, 'name': 'Fire Spirit', 'elixir_cost': 1, 'rarity': 'Common', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 7, 'name': 'Spear Goblins', 'elixir_cost': 2, 'rarity': 'Common', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 8, 'name': 'Goblin Gang', 'elixir_cost': 3, 'rarity': 'Common', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 9, 'name': 'Musketeer', 'elixir_cost': 4, 'rarity': 'Common', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 10, 'name': 'Bomb Tower', 'elixir_cost': 4, 'rarity': 'Common', 'type': 'Building', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 11, 'name': 'Ice Golem', 'elixir_cost': 2, 'rarity': 'Common', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 12, 'name': 'Mega Minion', 'elixir_cost': 3, 'rarity': 'Common', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 13, 'name': 'Minions', 'elixir_cost': 3, 'rarity': 'Common', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 14, 'name': 'Tombstone', 'elixir_cost': 3, 'rarity': 'Rare', 'type': 'Building', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 15, 'name': 'Wall Breakers', 'elixir_cost': 2, 'rarity': 'Rare', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 16, 'name': 'Three Musketeers', 'elixir_cost': 9, 'rarity': 'Epic', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 17, 'name': 'Earthquake', 'elixir_cost': 3, 'rarity': 'Rare', 'type': 'Spell', 'is_evolveable': False, 'is_hero': False},
-    
-    # Troops - Rare
-    {'card_id': 21, 'name': 'Giant', 'elixir_cost': 5, 'rarity': 'Rare', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 22, 'name': 'Valkyrie', 'elixir_cost': 4, 'rarity': 'Rare', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 23, 'name': 'Mini P.E.K.K.A', 'elixir_cost': 4, 'rarity': 'Rare', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 24, 'name': 'Hog Rider', 'elixir_cost': 4, 'rarity': 'Rare', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 25, 'name': 'Royal Giant', 'elixir_cost': 6, 'rarity': 'Rare', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 26, 'name': 'Barbarians', 'elixir_cost': 5, 'rarity': 'Rare', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 27, 'name': 'Rocket', 'elixir_cost': 6, 'rarity': 'Rare', 'type': 'Spell', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 28, 'name': 'Cannon Cart', 'elixir_cost': 5, 'rarity': 'Rare', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 29, 'name': 'Lumberjack', 'elixir_cost': 4, 'rarity': 'Rare', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    
-    # Troops - Epic
-    {'card_id': 31, 'name': 'Baby Dragon', 'elixir_cost': 4, 'rarity': 'Epic', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 32, 'name': 'P.E.K.K.A', 'elixir_cost': 7, 'rarity': 'Epic', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 33, 'name': 'Balloon', 'elixir_cost': 5, 'rarity': 'Epic', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 34, 'name': 'Witch', 'elixir_cost': 5, 'rarity': 'Epic', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 35, 'name': 'Golem', 'elixir_cost': 8, 'rarity': 'Epic', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 36, 'name': 'Night Witch', 'elixir_cost': 4, 'rarity': 'Epic', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 37, 'name': 'Poison', 'elixir_cost': 4, 'rarity': 'Epic', 'type': 'Spell', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 38, 'name': 'Lightning', 'elixir_cost': 6, 'rarity': 'Epic', 'type': 'Spell', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 39, 'name': 'Freeze', 'elixir_cost': 4, 'rarity': 'Epic', 'type': 'Spell', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 40, 'name': 'Tornado', 'elixir_cost': 3, 'rarity': 'Epic', 'type': 'Spell', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 41, 'name': 'X-Bow', 'elixir_cost': 6, 'rarity': 'Epic', 'type': 'Building', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 42, 'name': 'Elixir Collector', 'elixir_cost': 6, 'rarity': 'Epic', 'type': 'Building', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 43, 'name': 'Dark Prince', 'elixir_cost': 4, 'rarity': 'Epic', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 44, 'name': 'Executioner', 'elixir_cost': 5, 'rarity': 'Epic', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 45, 'name': 'Mortar', 'elixir_cost': 4, 'rarity': 'Common', 'type': 'Building', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 46, 'name': 'Goblin Barrel', 'elixir_cost': 3, 'rarity': 'Epic', 'type': 'Spell', 'is_evolveable': False, 'is_hero': False},
-    
-    # Troops - Legendary
-    {'card_id': 51, 'name': 'Lava Hound', 'elixir_cost': 7, 'rarity': 'Legendary', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 52, 'name': 'Mega Knight', 'elixir_cost': 7, 'rarity': 'Legendary', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 53, 'name': 'Bandit', 'elixir_cost': 3, 'rarity': 'Legendary', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 54, 'name': 'Royal Ghost', 'elixir_cost': 3, 'rarity': 'Legendary', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 55, 'name': 'Magic Archer', 'elixir_cost': 4, 'rarity': 'Legendary', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 56, 'name': 'Fisherman', 'elixir_cost': 3, 'rarity': 'Legendary', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 57, 'name': 'The Log', 'elixir_cost': 2, 'rarity': 'Legendary', 'type': 'Spell', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 58, 'name': 'Princess', 'elixir_cost': 3, 'rarity': 'Legendary', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 59, 'name': 'Miner', 'elixir_cost': 3, 'rarity': 'Legendary', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 60, 'name': 'Inferno Dragon', 'elixir_cost': 4, 'rarity': 'Legendary', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 61, 'name': 'Sparky', 'elixir_cost': 6, 'rarity': 'Legendary', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 62, 'name': 'Graveyard', 'elixir_cost': 5, 'rarity': 'Legendary', 'type': 'Spell', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 63, 'name': 'Electro Wizard', 'elixir_cost': 5, 'rarity': 'Legendary', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 64, 'name': 'Electro Giant', 'elixir_cost': 7, 'rarity': 'Epic', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    
-    # Champions (Heroes)
-    {'card_id': 71, 'name': 'Golden Knight', 'elixir_cost': 4, 'rarity': 'Champion', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 72, 'name': 'Archer Queen', 'elixir_cost': 5, 'rarity': 'Champion', 'type': 'Troop', 'is_evolveable': False, 'is_hero': True},
-    {'card_id': 73, 'name': 'Mighty Miner', 'elixir_cost': 4, 'rarity': 'Champion', 'type': 'Troop', 'is_evolveable': False, 'is_hero': True},
-    {'card_id': 74, 'name': 'Skeleton King', 'elixir_cost': 4, 'rarity': 'Champion', 'type': 'Troop', 'is_evolveable': False, 'is_hero': True},
-    {'card_id': 75, 'name': 'Royal Champion', 'elixir_cost': 5, 'rarity': 'Champion', 'type': 'Troop', 'is_evolveable': False, 'is_hero': True},
-    
-    # More buildings and spells
-    {'card_id': 81, 'name': 'Cannon', 'elixir_cost': 3, 'rarity': 'Common', 'type': 'Building', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 82, 'name': 'Archer Tower', 'elixir_cost': 5, 'rarity': 'Common', 'type': 'Building', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 83, 'name': 'Tesla', 'elixir_cost': 4, 'rarity': 'Common', 'type': 'Building', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 84, 'name': 'Inferno Tower', 'elixir_cost': 5, 'rarity': 'Rare', 'type': 'Building', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 85, 'name': 'Fireball', 'elixir_cost': 4, 'rarity': 'Common', 'type': 'Spell', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 86, 'name': 'Arrows', 'elixir_cost': 3, 'rarity': 'Common', 'type': 'Spell', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 87, 'name': 'Zap', 'elixir_cost': 2, 'rarity': 'Common', 'type': 'Spell', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 88, 'name': 'Giant Snowball', 'elixir_cost': 2, 'rarity': 'Common', 'type': 'Spell', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 89, 'name': 'Barbarian Barrel', 'elixir_cost': 2, 'rarity': 'Epic', 'type': 'Spell', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 90, 'name': 'Clone', 'elixir_cost': 3, 'rarity': 'Epic', 'type': 'Spell', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 91, 'name': 'Rage', 'elixir_cost': 2, 'rarity': 'Epic', 'type': 'Spell', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 92, 'name': 'Royal Delivery', 'elixir_cost': 3, 'rarity': 'Common', 'type': 'Spell', 'is_evolveable': False, 'is_hero': False},
-    {'card_id': 93, 'name': 'Firecracker', 'elixir_cost': 3, 'rarity': 'Common', 'type': 'Troop', 'is_evolveable': True, 'is_hero': False},
-    {'card_id': 94, 'name': 'Phoenix', 'elixir_cost': 4, 'rarity': 'Legendary', 'type': 'Troop', 'is_evolveable': False, 'is_hero': False},
-]
+CARD_PAGE = "https://clashroyale.fandom.com/wiki/Cards"
+CARD_API_PARSE = "https://clashroyale.fandom.com/api.php?action=parse&page=Cards&format=json"
+ROYALEAPI_POPULAR = "https://royaleapi.com/decks/popular"
+DECKSHOP_BEST = "https://www.deckshop.pro/best-decks/"
 
-# Популярные колоды для тестирования (30 колод)
-DEFAULT_DECKS = [
-    # Hog 2.6 Cycle
-    {'cards': ['Hog Rider', 'Musketeer', 'Ice Golem', 'Skeletons', 'Fireball', 'The Log', 'Ice Spirit', 'Cannon'], 'avg_elixir': 2.6, 'win_rate': 0.52, 'games_played': 5000},
-    # Log Bait
-    {'cards': ['Princess', 'Goblin Barrel', 'Knight', 'Goblin Gang', 'Inferno Tower', 'Fireball', 'The Log', 'Ice Spirit'], 'avg_elixir': 3.3, 'win_rate': 0.51, 'games_played': 4500},
-    # P.E.K.K.A Bridge Spam
-    {'cards': ['P.E.K.K.A', 'Bandit', 'Royal Ghost', 'Magic Archer', 'Poison', 'Zap', 'Musketeer', 'Cannon'], 'avg_elixir': 3.9, 'win_rate': 0.50, 'games_played': 4000},
-    # Golem Beatdown
-    {'cards': ['Golem', 'Night Witch', 'Baby Dragon', 'Mega Minion', 'Lightning', 'Tornado', 'Barbarians', 'Lumberjack'], 'avg_elixir': 4.3, 'win_rate': 0.49, 'games_played': 3500},
-    # LavaLoon
-    {'cards': ['Lava Hound', 'Balloon', 'Mega Minion', 'Minions', 'Fireball', 'Arrows', 'Skeletons', 'Tombstone'], 'avg_elixir': 3.8, 'win_rate': 0.48, 'games_played': 3000},
-    # Royal Giant
-    {'cards': ['Royal Giant', 'Fisherman', 'Royal Delivery', 'Firecracker', 'Poison', 'The Log', 'Skeletons', 'Cannon Cart'], 'avg_elixir': 3.5, 'win_rate': 0.51, 'games_played': 4200},
-    # Miner Control
-    {'cards': ['Miner', 'Wall Breakers', 'Skeletons', 'Ice Spirit', 'Fireball', 'The Log', 'Cannon', 'Knight'], 'avg_elixir': 2.8, 'win_rate': 0.50, 'games_played': 3800},
-    # Giant Beatdown
-    {'cards': ['Giant', 'Witch', 'Baby Dragon', 'Mega Minion', 'Fireball', 'Zap', 'Minions', 'Archers'], 'avg_elixir': 3.9, 'win_rate': 0.49, 'games_played': 3200},
-    # Mega Knight
-    {'cards': ['Mega Knight', 'Bandit', 'Inferno Dragon', 'Firecracker', 'Poison', 'Zap', 'Archers', 'Cannon'], 'avg_elixir': 3.6, 'win_rate': 0.52, 'games_played': 4800},
-    # Electro Giant
-    {'cards': ['Electro Giant', 'Bandit', 'Royal Ghost', 'Electro Wizard', 'Poison', 'Zap', 'Archers', 'Cannon'], 'avg_elixir': 4.1, 'win_rate': 0.50, 'games_played': 3600},
-    # Hog Earthquake
-    {'cards': ['Hog Rider', 'Earthquake', 'The Log', 'Skeletons', 'Musketeer', 'Ice Golem', 'Cannon', 'Fireball'], 'avg_elixir': 3.0, 'win_rate': 0.51, 'games_played': 4100},
-    # Three Musketeers
-    {'cards': ['Three Musketeers', 'Miner', 'Skeletons', 'Ice Spirit', 'Fireball', 'The Log', 'Cannon', 'Knight'], 'avg_elixir': 3.5, 'win_rate': 0.48, 'games_played': 2800},
-    # Sparky
-    {'cards': ['Sparky', 'Miner', 'Bandit', 'Electro Wizard', 'Poison', 'Zap', 'Skeletons', 'Cannon'], 'avg_elixir': 3.8, 'win_rate': 0.49, 'games_played': 3100},
-    # Graveyard
-    {'cards': ['Graveyard', 'Freeze', 'Knight', 'Skeletons', 'Ice Spirit', 'Fireball', 'The Log', 'Cannon'], 'avg_elixir': 3.4, 'win_rate': 0.50, 'games_played': 3700},
-    # Balloon
-    {'cards': ['Balloon', 'Freeze', 'Mega Minion', 'Minions', 'Fireball', 'Zap', 'Skeletons', 'Cannon'], 'avg_elixir': 3.7, 'win_rate': 0.49, 'games_played': 3300},
-    # X-Bow
-    {'cards': ['X-Bow', 'Knight', 'Skeletons', 'Ice Spirit', 'Fireball', 'The Log', 'Tesla', 'Archers'], 'avg_elixir': 3.2, 'win_rate': 0.48, 'games_played': 2500},
-    # Mortar
-    {'cards': ['Mortar', 'Knight', 'Skeletons', 'Ice Spirit', 'Fireball', 'The Log', 'Tesla', 'Archers'], 'avg_elixir': 3.1, 'win_rate': 0.47, 'games_played': 2400},
-    # Witch
-    {'cards': ['Witch', 'Hog Rider', 'Valkyrie', 'Mega Minion', 'Fireball', 'Zap', 'Skeletons', 'Cannon'], 'avg_elixir': 3.6, 'win_rate': 0.49, 'games_played': 3000},
-    # Valkyrie
-    {'cards': ['Valkyrie', 'Hog Rider', 'Musketeer', 'Mega Minion', 'Fireball', 'Zap', 'Skeletons', 'Cannon'], 'avg_elixir': 3.3, 'win_rate': 0.50, 'games_played': 3500},
-    # Ice Golem
-    {'cards': ['Ice Golem', 'Hog Rider', 'Musketeer', 'Mega Minion', 'Fireball', 'Zap', 'Skeletons', 'Cannon'], 'avg_elixir': 2.9, 'win_rate': 0.51, 'games_played': 3900},
-    # Dark Prince
-    {'cards': ['Dark Prince', 'Hog Rider', 'Musketeer', 'Mega Minion', 'Fireball', 'Zap', 'Skeletons', 'Cannon'], 'avg_elixir': 3.7, 'win_rate': 0.49, 'games_played': 3200},
-    # Executioner
-    {'cards': ['Executioner', 'Hog Rider', 'Musketeer', 'Mega Minion', 'Fireball', 'Zap', 'Skeletons', 'Cannon'], 'avg_elixir': 3.8, 'win_rate': 0.48, 'games_played': 2900},
-    # Inferno Dragon
-    {'cards': ['Inferno Dragon', 'Hog Rider', 'Musketeer', 'Mega Minion', 'Fireball', 'Zap', 'Skeletons', 'Cannon'], 'avg_elixir': 3.5, 'win_rate': 0.50, 'games_played': 3400},
-    # Lumberjack
-    {'cards': ['Lumberjack', 'Hog Rider', 'Musketeer', 'Mega Minion', 'Fireball', 'Zap', 'Skeletons', 'Cannon'], 'avg_elixir': 3.4, 'win_rate': 0.51, 'games_played': 3600},
-    # Electro Wizard
-    {'cards': ['Electro Wizard', 'Hog Rider', 'Musketeer', 'Mega Minion', 'Fireball', 'Zap', 'Skeletons', 'Cannon'], 'avg_elixir': 3.9, 'win_rate': 0.50, 'games_played': 3800},
-    # Phoenix
-    {'cards': ['Phoenix', 'Hog Rider', 'Musketeer', 'Mega Minion', 'Fireball', 'Zap', 'Skeletons', 'Cannon'], 'avg_elixir': 3.6, 'win_rate': 0.49, 'games_played': 3100},
-    # Firecracker
-    {'cards': ['Firecracker', 'Hog Rider', 'Musketeer', 'Mega Minion', 'Fireball', 'Zap', 'Skeletons', 'Cannon'], 'avg_elixir': 3.2, 'win_rate': 0.50, 'games_played': 3500},
-    # Cannon Cart
-    {'cards': ['Cannon Cart', 'Hog Rider', 'Musketeer', 'Mega Minion', 'Fireball', 'Zap', 'Skeletons', 'Cannon'], 'avg_elixir': 3.4, 'win_rate': 0.49, 'games_played': 3200},
-    # Barbarians
-    {'cards': ['Barbarians', 'Hog Rider', 'Musketeer', 'Mega Minion', 'Fireball', 'Zap', 'Skeletons', 'Cannon'], 'avg_elixir': 3.8, 'win_rate': 0.48, 'games_played': 2800},
-    # Rocket
-    {'cards': ['Rocket', 'Hog Rider', 'Musketeer', 'Mega Minion', 'Fireball', 'Zap', 'Skeletons', 'Cannon'], 'avg_elixir': 4.0, 'win_rate': 0.47, 'games_played': 2600},
-]
+
+def _normalize_text(value: str) -> str:
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def _slug_to_name(slug: str) -> str:
+    name = slug.strip().lower()
+    name = re.sub(r"-(ev\d+|evo|hero)$", "", name)
+    return " ".join(part.capitalize() for part in name.split("-"))
+
+
+def _extract_number(value: str) -> Optional[float]:
+    value = value.replace(",", "")
+    match = re.search(r"\d+(?:\.\d+)?", value)
+    if not match:
+        return None
+    return float(match.group(0))
 
 
 class ClashRoyaleAPI:
-    """
-    Основной класс для сбора данных
-    Использует встроенную базу карт и колод
-    """
-    
-    def __init__(self):
-        """Инициализация"""
-        logger.info("ClashRoyaleAPI инициализирован (встроенная база)")
-    
-    def get_all_cards(self) -> List[Dict[str, Any]]:
-        """
-        Получение всех карт из встроенной базы
-        
-        Returns:
-            Список словарей с данными карт
-        """
-        logger.info(f"Загрузка {len(DEFAULT_CARDS)} карт из встроенной базы...")
-        return DEFAULT_CARDS.copy()
-    
-    def get_top_decks(
-        self,
-        limit: int = 500,
-        min_games: int = MIN_GAMES_PLAYED
-    ) -> List[Dict[str, Any]]:
-        """
-        Получение топ колод из встроенной базы
-        
-        Args:
-            limit: Максимальное количество колод
-            min_games: Минимальное количество игр
-            
-        Returns:
-            Отфильтрованный список колод
-        """
-        logger.info(f"Загрузка колод из встроенной базы (лимит: {limit})...")
-        
-        decks = []
-        for i, deck_data in enumerate(DEFAULT_DECKS):
-            if len(decks) >= limit:
-                break
-            
-            # Фильтрация по играм
-            if deck_data['games_played'] < min_games:
-                continue
-            
-            deck = {
-                'deck_id': f"default_{i}",
-                'avg_elixir': deck_data['avg_elixir'],
-                'win_rate': deck_data['win_rate'],
-                'games_played': deck_data['games_played'],
-                'trophy_limit': None,
-                'season': None,
-                'source': 'default',
-                'timestamp': datetime.now(),
-                'cards': deck_data['cards']
+    """Сборщик данных для карт и колод."""
+
+    def __init__(self) -> None:
+        self.session = requests.Session()
+        self.session.headers.update(
+            {
+                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
             }
-            decks.append(deck)
-        
-        logger.info(f"Загружено {len(decks)} колод")
+        )
+        self.scraper = cloudscraper.create_scraper() if HAS_CLOUDSCRAPER else None
+        logger.info("ClashRoyaleAPI инициализирован")
+
+    def _request(self, url: str, use_cloudscraper: bool = False) -> str:
+        last_error: Optional[Exception] = None
+        for attempt in range(1, MAX_RETRIES + 1):
+            try:
+                if use_cloudscraper and self.scraper:
+                    response = self.scraper.get(url, timeout=TIMEOUT)
+                else:
+                    response = self.session.get(url, timeout=TIMEOUT)
+                response.raise_for_status()
+                time.sleep(REQUEST_DELAY)
+                return response.text
+            except Exception as exc:  # pragma: no cover
+                last_error = exc
+                logger.warning(f"Ошибка запроса {url} (попытка {attempt}/{MAX_RETRIES}): {exc}")
+                time.sleep(REQUEST_DELAY * attempt)
+
+        raise RuntimeError(f"Не удалось загрузить {url}: {last_error}")
+
+    def _parse_fandom_cards(self, html: str) -> List[Dict[str, Any]]:
+        """Парсинг карт из таблиц страницы Cards."""
+        soup = BeautifulSoup(html, "html.parser")
+        cards: Dict[str, Dict[str, Any]] = {}
+
+        def get_or_create_card(name: str, *, is_evolution: bool = False) -> Dict[str, Any]:
+            key = name.lower()
+            if key not in cards:
+                cards[key] = {
+                    "name": name,
+                    "elixir_cost": 0,
+                    "rarity": "Common",
+                    "type": "Troop",
+                    "is_evolveable": False,
+                    "is_hero": False,
+                    "is_champion": False,
+                    "is_evolution": is_evolution,
+                    "base_name": None,
+                    "icon_url": None,
+                    "source": "fandom",
+                }
+            return cards[key]
+
+        # Основные таблицы с Card + Cost
+        for table in soup.select("table.wikitable"):
+            header_cells = [
+                _normalize_text(th.get_text(" ", strip=True)).lower() for th in table.select("tr th")
+            ]
+            if "card" not in header_cells:
+                continue
+
+            cost_idx = None
+            for idx, header in enumerate(header_cells):
+                if "cost" in header:
+                    cost_idx = idx
+                    break
+
+            for row in table.select("tr")[1:]:
+                cells = row.find_all(["th", "td"])
+                if len(cells) < 2:
+                    continue
+
+                # Обычно вторая колонка — ссылка на карту
+                anchor = cells[1].find("a")
+                card_name = _normalize_text(anchor.get_text(" ", strip=True) if anchor else cells[1].get_text(" ", strip=True))
+                if not card_name or card_name.lower() == "card":
+                    continue
+
+                if "card level" in card_name.lower() or "wiki" in card_name.lower():
+                    continue
+
+                card = get_or_create_card(card_name)
+
+                if cost_idx is not None and cost_idx < len(cells):
+                    parsed_cost = _extract_number(cells[cost_idx].get_text(" ", strip=True))
+                    if parsed_cost is not None:
+                        card["elixir_cost"] = parsed_cost
+
+                href = anchor.get("href") if anchor else None
+                if href and href.startswith("/"):
+                    card["icon_url"] = f"https://clashroyale.fandom.com{href}"
+
+                # Грубая типизация по таблице
+                text_table = " ".join(header_cells)
+                if "spell" in text_table:
+                    card["type"] = "Spell"
+                elif "building" in text_table or "spawner" in text_table:
+                    card["type"] = "Building"
+
+        # Блок эволюций (отдельные сущности)
+        evo_header = soup.find(id="Card_Evolution")
+        if evo_header:
+            node: Optional[Tag] = evo_header.parent
+            while node and (node := node.find_next_sibling()):
+                if node.name == "h2":
+                    break
+                for anchor in node.select("a"):
+                    text = _normalize_text(anchor.get_text(" ", strip=True))
+                    if not text or len(text) < 3:
+                        continue
+                    if "evolution" in text.lower() or "evolved" in text.lower() or text.startswith("Evo "):
+                        base_name = re.sub(r"(?i)evolved\s+", "", text)
+                        base_name = re.sub(r"(?i)evolution\s+", "", base_name)
+                        base_name = re.sub(r"(?i)^evo\s+", "", base_name).strip()
+                        evo_name = f"Evolution {base_name}"
+                        evo = get_or_create_card(evo_name, is_evolution=True)
+                        evo["is_evolution"] = True
+                        evo["is_evolveable"] = True
+                        evo["base_name"] = base_name
+                        if base_name.lower() in cards:
+                            evo["elixir_cost"] = cards[base_name.lower()].get("elixir_cost", 0)
+
+        # Чемпионы и герои
+        champions = {
+            "Golden Knight",
+            "Archer Queen",
+            "Mighty Miner",
+            "Skeleton King",
+            "Monk",
+            "Little Prince",
+            "Goblinstein",
+        }
+        for champion in champions:
+            if champion.lower() in cards:
+                cards[champion.lower()]["rarity"] = "Champion"
+                cards[champion.lower()]["is_champion"] = True
+                cards[champion.lower()]["is_hero"] = True
+
+        # Маркировка evolveable базовых карт (если найдена их эволюция)
+        for card in list(cards.values()):
+            base_name = card.get("base_name")
+            if base_name and base_name.lower() in cards:
+                cards[base_name.lower()]["is_evolveable"] = True
+
+        # Присваиваем card_id стабильно по имени
+        prepared: List[Dict[str, Any]] = []
+        for card in sorted(cards.values(), key=lambda x: x["name"].lower()):
+            stable_id = int(hashlib.md5(card["name"].encode("utf-8")).hexdigest()[:8], 16)
+            card["card_id"] = stable_id
+            prepared.append(card)
+
+        return prepared
+
+    def get_all_cards(self) -> List[Dict[str, Any]]:
+        """Получить все карты из Fandom (включая эволюции и героев/чемпионов)."""
+        logger.info("Загрузка карт из Fandom MediaWiki API...")
+        raw = self._request(CARD_API_PARSE, use_cloudscraper=False)
+        json_match = json.loads(raw)
+        html = json_match["parse"]["text"]["*"]
+
+        cards = self._parse_fandom_cards(html)
+        if not cards:
+            raise RuntimeError("Парсер карт вернул пустой список")
+
+        logger.info(f"Получено карт: {len(cards)}")
+        return cards
+
+    def _parse_royaleapi_decks(self) -> List[Dict[str, Any]]:
+        logger.info("Парсинг колод из RoyaleAPI...")
+        html = self._request(ROYALEAPI_POPULAR, use_cloudscraper=True)
+        soup = BeautifulSoup(html, "html.parser")
+
+        decks: List[Dict[str, Any]] = []
+        seen = set()
+
+        for a in soup.find_all("a", href=True):
+            href = a["href"]
+            if "/decks/stats/" not in href:
+                continue
+
+            slug_part = href.split("/decks/stats/", 1)[1].split("?", 1)[0]
+            slug_cards = [s for s in slug_part.split(",") if s]
+            if len(slug_cards) != 8:
+                continue
+
+            key = tuple(slug_cards)
+            if key in seen:
+                continue
+            seen.add(key)
+
+            cards = [_slug_to_name(slug) for slug in slug_cards]
+            deck_id = f"royaleapi_{hashlib.md5(','.join(slug_cards).encode('utf-8')).hexdigest()[:16]}"
+
+            decks.append(
+                {
+                    "deck_id": deck_id,
+                    "cards": cards,
+                    "avg_elixir": 0.0,
+                    "win_rate": 0.5,
+                    "games_played": max(1000, MIN_GAMES_PLAYED),
+                    "trophy_limit": None,
+                    "season": None,
+                    "source": "royaleapi",
+                    "timestamp": datetime.now(),
+                }
+            )
+
+        logger.info(f"RoyaleAPI: найдено колод {len(decks)}")
         return decks
-    
-    def get_popular_decks(
-        self,
-        limit: int = 200,
-        min_games: int = MIN_GAMES_PLAYED
-    ) -> List[Dict[str, Any]]:
-        """Получение популярных колод"""
-        return self.get_top_decks(limit, min_games)
+
+    def _parse_deckshop_decks(self) -> List[Dict[str, Any]]:
+        logger.info("Парсинг колод из DeckShop...")
+        html = self._request(DECKSHOP_BEST, use_cloudscraper=False)
+        soup = BeautifulSoup(html, "html.parser")
+
+        decks: List[Dict[str, Any]] = []
+        seen = set()
+
+        for a in soup.find_all("a", href=True):
+            href = a["href"]
+            if "/deck/detail/" not in href:
+                continue
+
+            slug_part = href.split("/deck/detail/", 1)[1].split("?", 1)[0].strip("/")
+            slug_cards = [s for s in slug_part.split(",") if s]
+            if len(slug_cards) != 8:
+                continue
+
+            key = tuple(slug_cards)
+            if key in seen:
+                continue
+            seen.add(key)
+
+            cards = [_slug_to_name(slug) for slug in slug_cards]
+            deck_id = f"deckshop_{hashlib.md5(','.join(slug_cards).encode('utf-8')).hexdigest()[:16]}"
+            decks.append(
+                {
+                    "deck_id": deck_id,
+                    "cards": cards,
+                    "avg_elixir": 0.0,
+                    "win_rate": 0.5,
+                    "games_played": max(700, MIN_GAMES_PLAYED),
+                    "trophy_limit": None,
+                    "season": None,
+                    "source": "deckshop",
+                    "timestamp": datetime.now(),
+                }
+            )
+
+        logger.info(f"DeckShop: найдено колод {len(decks)}")
+        return decks
+
+    def get_top_decks(self, limit: int = 500, min_games: int = MIN_GAMES_PLAYED) -> List[Dict[str, Any]]:
+        """Получить объединенные колоды из двух источников в общем формате."""
+        decks = self._parse_royaleapi_decks() + self._parse_deckshop_decks()
+
+        # Дедуп по составу (без учета порядка)
+        uniq: Dict[Tuple[str, ...], Dict[str, Any]] = {}
+        for deck in decks:
+            if deck["games_played"] < min_games:
+                continue
+            signature = tuple(sorted(c.lower() for c in deck["cards"]))
+            if signature not in uniq:
+                uniq[signature] = deck
+
+        merged = list(uniq.values())[:limit]
+        logger.info(f"Итоговое количество колод (dedup): {len(merged)}")
+        return merged
+
+    def get_popular_decks(self, limit: int = 200, min_games: int = MIN_GAMES_PLAYED) -> List[Dict[str, Any]]:
+        return self.get_top_decks(limit=limit, min_games=min_games)
 
 
-def main():
-    """Тестирование парсера"""
+def main() -> None:
     api = ClashRoyaleAPI()
-    
-    # Тест парсинга карт
-    print("Тест: Парсинг карт...")
+
     cards = api.get_all_cards()
     print(f"Карты: {len(cards)}")
-    if cards:
-        print(f"Пример: {cards[0]}")
-    
-    print("\n" + "="*50 + "\n")
-    
-    # Тест парсинга колод
-    print("Тест: Парсинг колод...")
-    decks = api.get_top_decks(limit=10, min_games=1)
+    print(cards[0])
+
+    decks = api.get_top_decks(limit=20, min_games=1)
     print(f"Колоды: {len(decks)}")
-    if decks:
-        print(f"Пример: {decks[0]}")
+    print(decks[0])
 
 
 if __name__ == "__main__":
