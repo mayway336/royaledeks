@@ -51,7 +51,7 @@ class Database:
     
     def create_tables(self) -> None:
         """
-        Создание таблиц базы данных
+        Создание таблиц базы данных с автоматической фильтрацией карт
         """
         if not self.conn:
             self.connect()
@@ -128,6 +128,9 @@ class Database:
         
         self.conn.commit()
         logger.info("Таблицы БД созданы")
+        
+        # Автоматическая фильтрация таблицы карт после создания таблиц
+        self._filter_cards_table()
 
     def _ensure_cards_columns(self) -> None:
         """Добавление новых колонок в существующую таблицу cards (миграция без Alembic)."""
@@ -141,6 +144,61 @@ class Database:
         ]:
             if name not in existing_cols:
                 self.cursor.execute(ddl)
+    
+    def _filter_cards_table(self) -> None:
+        """
+        Автоматическая фильтрация таблицы карт:
+        - Удаление дубликатов по имени (оставляет первую запись)
+        - Удаление карт с NULL или пустыми значениями в обязательных колонках
+        - Удаление карт со ссылками на источник (содержащих http/https в имени или других полях)
+        """
+        if not self.conn:
+            self.connect()
+        
+        logger.info("Начало фильтрации таблицы карт...")
+        
+        # Удаляем карты с NULL или пустыми значениями в обязательных полях
+        self.cursor.execute("""
+            DELETE FROM cards 
+            WHERE name IS NULL OR TRIM(name) = ''
+               OR elixir_cost IS NULL
+               OR rarity IS NULL OR TRIM(rarity) = ''
+               OR type IS NULL OR TRIM(type) = ''
+        """)
+        deleted_empty = self.cursor.rowcount
+        if deleted_empty > 0:
+            logger.info(f"Удалено {deleted_empty} карт с пустыми/NULL значениями")
+        
+        # Удаляем карты, содержащие ссылки (http/https) в имени или других текстовых полях
+        self.cursor.execute("""
+            DELETE FROM cards 
+            WHERE name LIKE '%http%' OR name LIKE '%www.%' OR name LIKE '.com%'
+               OR icon_url LIKE '%http%' OR icon_url LIKE '%www.%'
+               OR base_name LIKE '%http%' OR base_name LIKE '%www.%'
+        """)
+        deleted_urls = self.cursor.rowcount
+        if deleted_urls > 0:
+            logger.info(f"Удалено {deleted_urls} карт со ссылками на сайты")
+        
+        # Удаляем дубликаты по имени (оставляем карту с наименьшим card_id)
+        self.cursor.execute("""
+            DELETE FROM cards 
+            WHERE card_id NOT IN (
+                SELECT MIN(card_id) 
+                FROM cards 
+                GROUP BY LOWER(TRIM(name))
+            )
+        """)
+        deleted_duplicates = self.cursor.rowcount
+        if deleted_duplicates > 0:
+            logger.info(f"Удалено {deleted_duplicates} дубликатов карт")
+        
+        self.conn.commit()
+        
+        # Логируем результат
+        self.cursor.execute("SELECT COUNT(*) as count FROM cards")
+        remaining = self.cursor.fetchone()['count']
+        logger.info(f"Фильтрация завершена. Осталось карт: {remaining}")
     
     def insert_card(self, card_data: Dict[str, Any]) -> int:
         """
