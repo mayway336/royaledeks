@@ -983,3 +983,4 @@ TypeError: '<=' not supported between instances of 'int' and 'list'
 2026-03-18 21:08:33 | INFO     | data.database:__init__:35 - Инициализация БД: c:\Users\user\Documents\Neyro\royaledeks-main\2\data\clash_royale.db
 2026-03-18 21:08:33 | INFO     | data.database:get_filtered_decks:346 - Получено 76 колод после фильтрации
 2026-03-18 21:08:33 | INFO     | web.app:load_data:200 - Web: загружено карт 146, валидных колод 37
+2026-03-19 17:55:57 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован

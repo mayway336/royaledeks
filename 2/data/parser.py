@@ -29,6 +29,9 @@ CARD_PAGE = "https://clashroyale.fandom.com/wiki/Cards"
 CARD_API_PARSE = "https://clashroyale.fandom.com/api.php?action=parse&page=Cards&format=json"
 ROYALEAPI_POPULAR = "https://royaleapi.com/decks/popular"
 DECKSHOP_BEST = "https://www.deckshop.pro/best-decks/"
+DECKSHOP_PRO = "https://www.deckshop.pro/deck/list"
+ROYALEAPI_TOP = "https://royaleapi.com/decks/top"
+OPEN_CRT = "https://open-crt.com/decks"
 
 
 def _normalize_text(value: str) -> str:
@@ -220,104 +223,141 @@ class ClashRoyaleAPI:
 
     def _parse_royaleapi_decks(self) -> List[Dict[str, Any]]:
         logger.info("Парсинг колод из RoyaleAPI...")
-        html = self._request(ROYALEAPI_POPULAR, use_cloudscraper=True)
-        soup = BeautifulSoup(html, "html.parser")
-
         decks: List[Dict[str, Any]] = []
-        seen = set()
-
-        for a in soup.find_all("a", href=True):
-            href = a["href"]
-            if "/decks/stats/" not in href:
-                continue
-
-            slug_part = href.split("/decks/stats/", 1)[1].split("?", 1)[0]
-            slug_cards = [s for s in slug_part.split(",") if s]
-            if len(slug_cards) != 8:
-                continue
-
-            key = tuple(slug_cards)
-            if key in seen:
-                continue
-            seen.add(key)
-
-            cards = [_slug_to_name(slug) for slug in slug_cards]
-            deck_id = f"royaleapi_{hashlib.md5(','.join(slug_cards).encode('utf-8')).hexdigest()[:16]}"
-
-            decks.append(
-                {
-                    "deck_id": deck_id,
-                    "cards": cards,
-                    "avg_elixir": 0.0,
-                    "win_rate": 0.5,
-                    "games_played": max(1000, MIN_GAMES_PLAYED),
-                    "trophy_limit": None,
-                    "season": None,
-                    "source": "royaleapi",
-                    "timestamp": datetime.now(),
-                }
-            )
-
+        seen_global = set()
+        
+        # Парсим несколько страниц/разделов RoyaleAPI
+        urls_to_parse = [
+            ROYALEAPI_POPULAR,
+            ROYALEAPI_TOP,
+        ]
+        
+        for url in urls_to_parse:
+            try:
+                html = self._request(url, use_cloudscraper=True)
+                soup = BeautifulSoup(html, "html.parser")
+                
+                for a in soup.find_all("a", href=True):
+                    href = a["href"]
+                    if "/decks/stats/" not in href and "/decks/top/" not in href:
+                        continue
+                    
+                    # Извлекаем карты из URL
+                    slug_part = href.split("/decks/stats/")[-1].split("/decks/top/")[-1].split("?")[0]
+                    slug_cards = [s for s in slug_part.split(",") if s]
+                    if len(slug_cards) != 8:
+                        continue
+                    
+                    key = tuple(sorted(slug_cards))
+                    if key in seen_global:
+                        continue
+                    seen_global.add(key)
+                    
+                    cards = [_slug_to_name(slug) for slug in slug_cards]
+                    deck_id = f"royaleapi_{hashlib.md5(','.join(sorted(slug_cards)).encode('utf-8')).hexdigest()[:16]}"
+                    
+                    decks.append(
+                        {
+                            "deck_id": deck_id,
+                            "cards": cards,
+                            "avg_elixir": 0.0,
+                            "win_rate": 0.5,
+                            "games_played": max(1000, MIN_GAMES_PLAYED),
+                            "trophy_limit": None,
+                            "season": None,
+                            "source": "royaleapi",
+                            "timestamp": datetime.now(),
+                        }
+                    )
+            except Exception as e:
+                logger.warning(f"Ошибка при парсинге {url}: {e}")
+        
         logger.info(f"RoyaleAPI: найдено колод {len(decks)}")
         return decks
 
     def _parse_deckshop_decks(self) -> List[Dict[str, Any]]:
         logger.info("Парсинг колод из DeckShop...")
-        html = self._request(DECKSHOP_BEST, use_cloudscraper=False)
-        soup = BeautifulSoup(html, "html.parser")
-
         decks: List[Dict[str, Any]] = []
-        seen = set()
-
-        for a in soup.find_all("a", href=True):
-            href = a["href"]
-            if "/deck/detail/" not in href:
-                continue
-
-            slug_part = href.split("/deck/detail/", 1)[1].split("?", 1)[0].strip("/")
-            slug_cards = [s for s in slug_part.split(",") if s]
-            if len(slug_cards) != 8:
-                continue
-
-            key = tuple(slug_cards)
-            if key in seen:
-                continue
-            seen.add(key)
-
-            cards = [_slug_to_name(slug) for slug in slug_cards]
-            deck_id = f"deckshop_{hashlib.md5(','.join(slug_cards).encode('utf-8')).hexdigest()[:16]}"
-            decks.append(
-                {
-                    "deck_id": deck_id,
-                    "cards": cards,
-                    "avg_elixir": 0.0,
-                    "win_rate": 0.5,
-                    "games_played": max(700, MIN_GAMES_PLAYED),
-                    "trophy_limit": None,
-                    "season": None,
-                    "source": "deckshop",
-                    "timestamp": datetime.now(),
-                }
-            )
-
+        seen_global = set()
+        
+        # Парсим несколько страниц DeckShop
+        urls_to_parse = [
+            DECKSHOP_BEST,
+            DECKSHOP_PRO,
+        ]
+        
+        for url in urls_to_parse:
+            try:
+                html = self._request(url, use_cloudscraper=False)
+                soup = BeautifulSoup(html, "html.parser")
+                
+                for a in soup.find_all("a", href=True):
+                    href = a["href"]
+                    if "/deck/detail/" not in href and "/best-decks/" not in href:
+                        continue
+                    
+                    slug_part = href.split("/deck/detail/")[-1].split("/best-decks/")[-1].split("?")[0].strip("/")
+                    slug_cards = [s for s in slug_part.split(",") if s]
+                    if len(slug_cards) != 8:
+                        continue
+                    
+                    key = tuple(sorted(slug_cards))
+                    if key in seen_global:
+                        continue
+                    seen_global.add(key)
+                    
+                    cards = [_slug_to_name(slug) for slug in slug_cards]
+                    deck_id = f"deckshop_{hashlib.md5(','.join(sorted(slug_cards)).encode('utf-8')).hexdigest()[:16]}"
+                    decks.append(
+                        {
+                            "deck_id": deck_id,
+                            "cards": cards,
+                            "avg_elixir": 0.0,
+                            "win_rate": 0.5,
+                            "games_played": max(700, MIN_GAMES_PLAYED),
+                            "trophy_limit": None,
+                            "season": None,
+                            "source": "deckshop",
+                            "timestamp": datetime.now(),
+                        }
+                    )
+            except Exception as e:
+                logger.warning(f"Ошибка при парсинге {url}: {e}")
+        
         logger.info(f"DeckShop: найдено колод {len(decks)}")
         return decks
 
     def get_top_decks(self, limit: int = 500, min_games: int = MIN_GAMES_PLAYED) -> List[Dict[str, Any]]:
-        """Получить объединенные колоды из двух источников в общем формате."""
+        """Получить объединенные колоды из всех источников с глобальной проверкой уникальности."""
         decks = self._parse_royaleapi_decks() + self._parse_deckshop_decks()
 
-        # Дедуп по составу (без учета порядка)
+        # Глобальная дедупликация по составу карт (независимо от порядка)
+        # Также проверяем uniqueness по deck_id для избежания полных дубликатов
         uniq: Dict[Tuple[str, ...], Dict[str, Any]] = {}
+        seen_deck_ids = set()
+        
         for deck in decks:
             if deck["games_played"] < min_games:
                 continue
+            
+            # Проверка на уникальный deck_id
+            if deck["deck_id"] in seen_deck_ids:
+                continue
+            seen_deck_ids.add(deck["deck_id"])
+            
+            # Сигнатура колоды - отсортированный набор карт (case-insensitive)
             signature = tuple(sorted(c.lower() for c in deck["cards"]))
+            
+            # Если такая комбинация карт уже есть, пропускаем
             if signature not in uniq:
                 uniq[signature] = deck
+            else:
+                # Если есть дубликат по картам, оставляем запись с большим games_played
+                if deck["games_played"] > uniq[signature]["games_played"]:
+                    uniq[signature] = deck
 
         merged = list(uniq.values())[:limit]
-        logger.info(f"Итоговое количество колод (dedup): {len(merged)}")
+        logger.info(f"Итоговое количество колод (global dedup): {len(merged)}")
         return merged
 
     def get_popular_decks(self, limit: int = 200, min_games: int = MIN_GAMES_PLAYED) -> List[Dict[str, Any]]:

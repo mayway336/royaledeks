@@ -7,7 +7,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from typing import Optional, Tuple
 
-from config import EMBEDDING_DIM, NUM_HEADS, NUM_LAYERS, DROPOUT, MAX_SEQ_LEN
+from config import EMBEDDING_DIM, NUM_HEADS, NUM_LAYERS, DROPOUT, MAX_SEQ_LEN, FF_DIM_MULTIPLIER
 from utils.logger import logger
 
 
@@ -214,17 +214,18 @@ class TransformerDecoder(nn.Module):
             embedding_dim: Размерность эмбеддинга
             num_heads: Количество голов внимания
             num_layers: Количество слоёв decoder
-            ff_dim: Размерность FFN (по умолчанию 4 * embedding_dim)
+            ff_dim: Размерность FFN (по умолчанию FF_DIM_MULTIPLIER * embedding_dim)
             dropout: Коэффициент dropout
             max_seq_len: Максимальная длина последовательности
         """
         super().__init__()
         
         if ff_dim is None:
-            ff_dim = 4 * embedding_dim
+            ff_dim = FF_DIM_MULTIPLIER * embedding_dim
         
         self.embedding_dim = embedding_dim
         self.num_layers = num_layers
+        self.ff_dim = ff_dim
         
         # Слои decoder
         self.layers = nn.ModuleList([
@@ -244,7 +245,7 @@ class TransformerDecoder(nn.Module):
         logger.info(
             f"Transformer Decoder инициализирован: "
             f"embedding_dim={embedding_dim}, num_heads={num_heads}, "
-            f"num_layers={num_layers}"
+            f"num_layers={num_layers}, ff_dim={ff_dim}"
         )
     
     def forward(

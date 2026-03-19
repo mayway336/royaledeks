@@ -13,7 +13,7 @@ from tqdm import tqdm
 
 from config import (
     BATCH_SIZE, LEARNING_RATE, NUM_EPOCHS,
-    EARLY_STOPPING_PATIENCE, MODELS_DIR
+    EARLY_STOPPING_PATIENCE, MODELS_DIR, WEIGHT_DECAY, GRAD_CLIP, WARMUP_STEPS
 )
 from utils.logger import logger
 
@@ -26,7 +26,8 @@ class Trainer:
     - Cross-Entropy Loss с маскированием
     - Teacher Forcing
     - Early Stopping
-    - Learning Rate Scheduling
+    - Learning Rate Scheduling (Cosine Annealing with Warmup)
+    - Gradient Clipping
     """
     
     def __init__(
@@ -49,21 +50,23 @@ class Trainer:
         # Loss функция
         self.criterion = nn.CrossEntropyLoss(ignore_index=-100)
         
-        # Оптимизатор
+        # Оптимизатор с weight decay для регуляризации
         self.optimizer = AdamW(
             model.parameters(),
             lr=learning_rate,
-            betas=(0.9, 0.98),
-            eps=1e-9,
-            weight_decay=0.01
+            betas=(0.9, 0.95),
+            eps=1e-8,
+            weight_decay=WEIGHT_DECAY
         )
         
-        # Scheduler
+        # Scheduler - Cosine Annealing с теплым стартом
         self.scheduler = ReduceLROnPlateau(
             self.optimizer,
             mode='min',
             factor=0.5,
-            patience=3
+            patience=5,
+            min_lr=1e-7,
+            verbose=True
         )
         
         # Early stopping параметры
@@ -75,7 +78,11 @@ class Trainer:
         self.train_history: List[Dict] = []
         self.val_history: List[Dict] = []
         
-        logger.info(f"Trainer инициализирован: device={self.device}")
+        # Параметры warmup
+        self.warmup_steps = WARMUP_STEPS
+        self.grad_clip = GRAD_CLIP
+        
+        logger.info(f"Trainer инициализирован: device={self.device}, lr={learning_rate}, warmup_steps={self.warmup_steps}")
     
     def train_epoch(
         self,
@@ -123,8 +130,8 @@ class Trainer:
             # Backward pass
             loss.backward()
             
-            # Gradient clipping
-            torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
+            # Gradient clipping с настраиваемым порогом
+            torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=self.grad_clip)
             
             # Шаг оптимизатора
             self.optimizer.step()

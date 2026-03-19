@@ -15,17 +15,21 @@ BASE_DIR = Path(__file__).parent
 DATABASE_PATH = os.getenv("DATABASE_PATH", BASE_DIR / "data" / "clash_royale.db")
 
 # ==================== Model Architecture ====================
-EMBEDDING_DIM = int(os.getenv("EMBEDDING_DIM", "128"))
-NUM_HEADS = int(os.getenv("NUM_HEADS", "8"))
-NUM_LAYERS = int(os.getenv("NUM_LAYERS", "6"))
-DROPOUT = float(os.getenv("DROPOUT", "0.1"))
+EMBEDDING_DIM = int(os.getenv("EMBEDDING_DIM", "256"))
+NUM_HEADS = int(os.getenv("NUM_HEADS", "16"))
+NUM_LAYERS = int(os.getenv("NUM_LAYERS", "8"))
+FF_DIM_MULTIPLIER = int(os.getenv("FF_DIM_MULTIPLIER", "8"))
+DROPOUT = float(os.getenv("DROPOUT", "0.2"))
 MAX_SEQ_LEN = int(os.getenv("MAX_SEQ_LEN", "8"))
 
 # ==================== Training Configuration ====================
 BATCH_SIZE = int(os.getenv("BATCH_SIZE", "8"))
-LEARNING_RATE = float(os.getenv("LEARNING_RATE", "0.0001"))
-NUM_EPOCHS = int(os.getenv("NUM_EPOCHS", "50"))
-EARLY_STOPPING_PATIENCE = int(os.getenv("EARLY_STOPPING_PATIENCE", "10"))
+LEARNING_RATE = float(os.getenv("LEARNING_RATE", "0.00005"))
+NUM_EPOCHS = int(os.getenv("NUM_EPOCHS", "100"))
+EARLY_STOPPING_PATIENCE = int(os.getenv("EARLY_STOPPING_PATIENCE", "15"))
+WEIGHT_DECAY = float(os.getenv("WEIGHT_DECAY", "0.01"))
+GRAD_CLIP = float(os.getenv("GRAD_CLIP", "0.5"))
+WARMUP_STEPS = int(os.getenv("WARMUP_STEPS", "100"))
 
 # ==================== Data Filtering ====================
 MIN_GAMES_PLAYED = int(os.getenv("MIN_GAMES_PLAYED", "100"))
