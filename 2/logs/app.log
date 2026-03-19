@@ -1,0 +1,985 @@
+2026-03-18 16:27:23 | INFO     | utils.logger:setup_logger:42 - Логгер инициализирован
+2026-03-18 16:27:23 | INFO     | utils.logger:setup_logger:42 - Логгер инициализирован
+2026-03-18 16:28:35 | INFO     | utils.logger:setup_logger:42 - Логгер инициализирован
+2026-03-18 16:28:35 | INFO     | utils.logger:setup_logger:42 - Логгер инициализирован
+2026-03-18 16:28:40 | INFO     | utils.logger:setup_logger:42 - Логгер инициализирован
+2026-03-18 16:28:40 | INFO     | utils.logger:setup_logger:42 - Логгер инициализирован
+2026-03-18 16:29:41 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:29:41 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:29:41 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:29:46 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:29:46 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:30:39 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:30:39 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:30:43 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:30:43 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:30:43 | INFO     | data.parser:__init__:44 - WebScraper инициализирован
+2026-03-18 16:30:43 | INFO     | data.parser:__init__:44 - WebScraper инициализирован
+2026-03-18 16:30:43 | INFO     | data.parser:__init__:416 - ClashRoyaleAPI инициализирован
+2026-03-18 16:30:43 | INFO     | data.parser:get_all_cards:98 - Парсинг списка карт из Clash Royale Fandom Wiki...
+2026-03-18 16:30:44 | WARNING  | data.parser:_get:68 - Попытка 1 failed: 403 Client Error: Forbidden for url: https://clashroyale.fandom.com/wiki/Cards
+2026-03-18 16:30:45 | WARNING  | data.parser:_get:68 - Попытка 2 failed: 403 Client Error: Forbidden for url: https://clashroyale.fandom.com/wiki/Cards
+2026-03-18 16:30:48 | WARNING  | data.parser:_get:68 - Попытка 3 failed: 403 Client Error: Forbidden for url: https://clashroyale.fandom.com/wiki/Cards
+2026-03-18 16:30:48 | ERROR    | data.parser:_get:72 - Все попытки исчерпаны для https://clashroyale.fandom.com/wiki/Cards
+2026-03-18 16:30:48 | ERROR    | data.parser:get_all_cards:105 - Не удалось получить страницу карт
+2026-03-18 16:30:48 | INFO     | data.parser:parse_deckshop_decks:307 - Парсинг колод с DeckShop.pro (лимит: 5)...
+2026-03-18 16:30:48 | WARNING  | data.parser:_get:68 - Попытка 1 failed: 403 Client Error: Forbidden for url: https://www.deckshop.pro/list/1
+2026-03-18 16:30:50 | WARNING  | data.parser:_get:68 - Попытка 2 failed: 403 Client Error: Forbidden for url: https://www.deckshop.pro/list/1
+2026-03-18 16:30:53 | WARNING  | data.parser:_get:68 - Попытка 3 failed: 403 Client Error: Forbidden for url: https://www.deckshop.pro/list/1
+2026-03-18 16:30:53 | ERROR    | data.parser:_get:72 - Все попытки исчерпаны для https://www.deckshop.pro/list/1
+2026-03-18 16:30:53 | WARNING  | data.parser:parse_deckshop_decks:318 - Не удалось получить страницу 1
+2026-03-18 16:30:53 | INFO     | data.parser:parse_deckshop_decks:341 - Спарсено 0 колод
+2026-03-18 16:30:53 | INFO     | data.parser:get_top_decks:442 - После фильтрации: 0 колод
+2026-03-18 16:31:31 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:31:31 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:31:34 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:31:34 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:31:34 | INFO     | data.parser:__init__:66 - WebScraper инициализирован
+2026-03-18 16:31:34 | INFO     | data.parser:__init__:66 - WebScraper инициализирован
+2026-03-18 16:31:34 | INFO     | data.parser:__init__:438 - ClashRoyaleAPI инициализирован
+2026-03-18 16:31:34 | INFO     | data.parser:get_all_cards:120 - Парсинг списка карт из Clash Royale Fandom Wiki...
+2026-03-18 16:31:35 | INFO     | data.parser:get_all_cards:157 - Спарсено 0 карт
+2026-03-18 16:31:35 | INFO     | data.parser:parse_deckshop_decks:329 - Парсинг колод с DeckShop.pro (лимит: 5)...
+2026-03-18 16:31:36 | WARNING  | data.parser:_get:90 - Попытка 1 failed: 403 Client Error: Forbidden for url: https://www.deckshop.pro/list/1
+2026-03-18 16:31:37 | WARNING  | data.parser:_get:90 - Попытка 2 failed: 403 Client Error: Forbidden for url: https://www.deckshop.pro/list/1
+2026-03-18 16:31:40 | WARNING  | data.parser:_get:90 - Попытка 3 failed: 403 Client Error: Forbidden for url: https://www.deckshop.pro/list/1
+2026-03-18 16:31:40 | ERROR    | data.parser:_get:94 - Все попытки исчерпаны для https://www.deckshop.pro/list/1
+2026-03-18 16:31:40 | WARNING  | data.parser:parse_deckshop_decks:340 - Не удалось получить страницу 1
+2026-03-18 16:31:40 | INFO     | data.parser:parse_deckshop_decks:363 - Спарсено 0 колод
+2026-03-18 16:31:40 | INFO     | data.parser:get_top_decks:464 - После фильтрации: 0 колод
+2026-03-18 16:33:36 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:33:36 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:34:41 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:34:41 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:34:44 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:34:44 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:34:44 | INFO     | data.parser:__init__:198 - ClashRoyaleAPI инициализирован (встроенная база)
+2026-03-18 16:34:44 | INFO     | data.parser:get_all_cards:207 - Загрузка 66 карт из встроенной базы...
+2026-03-18 16:34:44 | INFO     | data.parser:get_top_decks:225 - Загрузка колод из встроенной базы (лимит: 5)...
+2026-03-18 16:34:44 | INFO     | data.parser:get_top_decks:249 - Загружено 5 колод
+2026-03-18 16:35:03 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:35:03 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:35:06 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:35:06 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:37:29 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:37:29 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:37:32 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:37:32 | INFO     | __main__:run_etl:19 - ==================================================
+2026-03-18 16:37:32 | INFO     | __main__:run_etl:20 - Запуск ETL Pipeline
+2026-03-18 16:37:32 | INFO     | __main__:run_etl:21 - ==================================================
+2026-03-18 16:37:32 | INFO     | __main__:run_etl:24 - Инициализация базы данных...
+2026-03-18 16:38:13 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:38:16 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:38:16 | INFO     | __main__:run_etl:19 - ==================================================
+2026-03-18 16:38:16 | INFO     | __main__:run_etl:20 - Запуск ETL Pipeline
+2026-03-18 16:38:16 | INFO     | __main__:run_etl:21 - ==================================================
+2026-03-18 16:38:16 | INFO     | __main__:run_etl:24 - Инициализация базы данных...
+2026-03-18 16:38:16 | INFO     | data.database:__init__:35 - Инициализация БД: c:\Users\user\Documents\Neyro\2\data\clash_royale.db
+2026-03-18 16:38:16 | INFO     | data.database:create_tables:124 - Таблицы БД созданы
+2026-03-18 16:38:16 | INFO     | __main__:run_etl:30 - Инициализация парсера...
+2026-03-18 16:38:16 | INFO     | data.parser:__init__:198 - ClashRoyaleAPI инициализирован (встроенная база)
+2026-03-18 16:38:16 | INFO     | __main__:run_etl:35 - Загрузка карт...
+2026-03-18 16:38:16 | INFO     | data.parser:get_all_cards:207 - Загрузка 66 карт из встроенной базы...
+2026-03-18 16:38:16 | INFO     | __main__:run_etl:43 - Сохранение 66 карт в БД...
+2026-03-18 16:38:17 | INFO     | __main__:run_etl:47 - ✓ Карты сохранены: 66
+2026-03-18 16:38:17 | INFO     | __main__:run_etl:50 - Загрузка колод...
+2026-03-18 16:38:17 | INFO     | data.parser:get_top_decks:225 - Загрузка колод из встроенной базы (лимит: 500)...
+2026-03-18 16:38:17 | INFO     | data.parser:get_top_decks:249 - Загружено 10 колод
+2026-03-18 16:38:17 | INFO     | __main__:run_etl:58 - Сохранение 10 колод в БД...
+2026-03-18 16:38:17 | INFO     | __main__:run_etl:79 - ✓ Колоды сохранены: 3
+2026-03-18 16:38:17 | INFO     | __main__:run_etl:83 - ==================================================
+2026-03-18 16:38:17 | INFO     | __main__:run_etl:84 - Статистика БД:
+2026-03-18 16:38:17 | INFO     | __main__:run_etl:85 -   Всего карт: 66
+2026-03-18 16:38:17 | INFO     | __main__:run_etl:86 -   Всего колод: 3
+2026-03-18 16:38:17 | INFO     | __main__:run_etl:87 -   Средний winrate: 51.00%
+2026-03-18 16:38:17 | INFO     | __main__:run_etl:88 - ==================================================
+2026-03-18 16:38:17 | INFO     | __main__:run_etl:90 - ✓ ETL Pipeline завершён успешно
+2026-03-18 16:38:30 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:38:33 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:38:33 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:38:33 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:38:33 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:38:33 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:41:37 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:41:40 | INFO     | __main__:run_training:25 - ==================================================
+2026-03-18 16:41:40 | INFO     | __main__:run_training:26 - Запуск обучения модели
+2026-03-18 16:41:40 | INFO     | __main__:run_training:27 - ==================================================
+2026-03-18 16:41:40 | INFO     | __main__:run_training:30 - Загрузка данных из БД...
+2026-03-18 16:41:40 | INFO     | data.database:__init__:35 - Инициализация БД: c:\Users\user\Documents\Neyro\2\data\clash_royale.db
+2026-03-18 16:41:40 | INFO     | __main__:run_training:41 - В БД: 66 карт, 3 колод
+2026-03-18 16:41:40 | INFO     | data.database:get_filtered_decks:319 - Получено 3 колод после фильтрации
+2026-03-18 16:41:40 | INFO     | __main__:run_training:53 - Загружено 3 колод после фильтрации
+2026-03-18 16:41:40 | INFO     | __main__:run_training:56 - Предобработка данных...
+2026-03-18 16:41:40 | INFO     | data.preprocessor:build:45 - Словарь построен: 66 карт
+2026-03-18 16:41:40 | INFO     | data.preprocessor:__init__:116 - Кодировщик инициализирован, размер признаков: 11
+2026-03-18 16:41:40 | INFO     | data.preprocessor:__init__:204 - Препроцессор инициализирован
+2026-03-18 16:41:40 | INFO     | data.preprocessor:create_training_sequences:349 - Создано 3 обучающих последовательностей
+2026-03-18 16:41:40 | INFO     | data.preprocessor:create_training_sequences:350 -   Input shape: torch.Size([3, 8])
+2026-03-18 16:41:40 | INFO     | data.preprocessor:create_training_sequences:351 -   Target shape: torch.Size([3, 8])
+2026-03-18 16:41:40 | INFO     | data.preprocessor:create_training_sequences:352 -   Features shape: torch.Size([3, 8, 11])
+2026-03-18 16:41:40 | INFO     | __main__:run_training:67 - Создание DataLoader'ов...
+2026-03-18 16:41:40 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 2 образцов
+2026-03-18 16:41:40 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 0 образцов
+2026-03-18 16:41:40 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 1 образцов
+2026-03-18 16:41:40 | INFO     | train.dataset:create_dataloaders:173 - Разбиение данных:
+2026-03-18 16:41:40 | INFO     | train.dataset:create_dataloaders:174 -   Train: 2 (80%)
+2026-03-18 16:41:40 | INFO     | train.dataset:create_dataloaders:175 -   Val:   0 (10%)
+2026-03-18 16:41:40 | INFO     | train.dataset:create_dataloaders:176 -   Test:  1 (10%)
+2026-03-18 16:41:40 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=32, num_batches=0
+2026-03-18 16:41:40 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=32, num_batches=0
+2026-03-18 16:41:40 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=32, num_batches=0
+2026-03-18 16:41:40 | INFO     | __main__:run_training:77 - Инициализация модели...
+2026-03-18 16:41:40 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 16:41:40 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=66
+2026-03-18 16:41:40 | INFO     | __main__:run_training:91 - Параметров модели: 1,243,202 (trainable: 1,243,202)
+2026-03-18 16:44:07 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:19 - ==================================================
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:20 - Запуск ETL Pipeline
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:21 - ==================================================
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:24 - Инициализация базы данных...
+2026-03-18 16:44:10 | INFO     | data.database:__init__:35 - Инициализация БД: c:\Users\user\Documents\Neyro\2\data\clash_royale.db
+2026-03-18 16:44:10 | INFO     | data.database:create_tables:124 - Таблицы БД созданы
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:30 - Инициализация парсера...
+2026-03-18 16:44:10 | INFO     | data.parser:__init__:188 - ClashRoyaleAPI инициализирован (встроенная база)
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:35 - Загрузка карт...
+2026-03-18 16:44:10 | INFO     | data.parser:get_all_cards:197 - Загрузка 66 карт из встроенной базы...
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:43 - Сохранение 66 карт в БД...
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:47 - ✓ Карты сохранены: 66
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:50 - Загрузка колод...
+2026-03-18 16:44:10 | INFO     | data.parser:get_top_decks:215 - Загрузка колод из встроенной базы (лимит: 500)...
+2026-03-18 16:44:10 | INFO     | data.parser:get_top_decks:239 - Загружено 30 колод
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:58 - Сохранение 30 колод в БД...
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:79 - ✓ Колоды сохранены: 7
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:83 - ==================================================
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:84 - Статистика БД:
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:85 -   Всего карт: 66
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:86 -   Всего колод: 7
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:87 -   Средний winrate: 49.57%
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:88 - ==================================================
+2026-03-18 16:44:10 | INFO     | __main__:run_etl:90 - ✓ ETL Pipeline завершён успешно
+2026-03-18 16:47:24 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:19 - ==================================================
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:20 - Запуск ETL Pipeline
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:21 - ==================================================
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:24 - Инициализация базы данных...
+2026-03-18 16:47:27 | INFO     | data.database:__init__:35 - Инициализация БД: c:\Users\user\Documents\Neyro\2\data\clash_royale.db
+2026-03-18 16:47:27 | INFO     | data.database:create_tables:124 - Таблицы БД созданы
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:30 - Инициализация парсера...
+2026-03-18 16:47:27 | INFO     | data.parser:__init__:197 - ClashRoyaleAPI инициализирован (встроенная база)
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:35 - Загрузка карт...
+2026-03-18 16:47:27 | INFO     | data.parser:get_all_cards:206 - Загрузка 75 карт из встроенной базы...
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:43 - Сохранение 75 карт в БД...
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:47 - ✓ Карты сохранены: 75
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:50 - Загрузка колод...
+2026-03-18 16:47:27 | INFO     | data.parser:get_top_decks:224 - Загрузка колод из встроенной базы (лимит: 500)...
+2026-03-18 16:47:27 | INFO     | data.parser:get_top_decks:248 - Загружено 30 колод
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:58 - Сохранение 30 колод в БД...
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:79 - ✓ Колоды сохранены: 30
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:83 - ==================================================
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:84 - Статистика БД:
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:85 -   Всего карт: 75
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:86 -   Всего колод: 30
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:87 -   Средний winrate: 49.50%
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:88 - ==================================================
+2026-03-18 16:47:27 | INFO     | __main__:run_etl:90 - ✓ ETL Pipeline завершён успешно
+2026-03-18 16:47:45 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:47:48 | INFO     | __main__:run_training:25 - ==================================================
+2026-03-18 16:47:48 | INFO     | __main__:run_training:26 - Запуск обучения модели
+2026-03-18 16:47:48 | INFO     | __main__:run_training:27 - ==================================================
+2026-03-18 16:47:48 | INFO     | __main__:run_training:30 - Загрузка данных из БД...
+2026-03-18 16:47:48 | INFO     | data.database:__init__:35 - Инициализация БД: c:\Users\user\Documents\Neyro\2\data\clash_royale.db
+2026-03-18 16:47:48 | INFO     | __main__:run_training:41 - В БД: 75 карт, 30 колод
+2026-03-18 16:47:48 | INFO     | data.database:get_filtered_decks:319 - Получено 30 колод после фильтрации
+2026-03-18 16:47:48 | INFO     | __main__:run_training:53 - Загружено 30 колод после фильтрации
+2026-03-18 16:47:48 | INFO     | __main__:run_training:56 - Предобработка данных...
+2026-03-18 16:47:48 | INFO     | data.preprocessor:build:45 - Словарь построен: 75 карт
+2026-03-18 16:47:48 | INFO     | data.preprocessor:__init__:116 - Кодировщик инициализирован, размер признаков: 11
+2026-03-18 16:47:48 | INFO     | data.preprocessor:__init__:204 - Препроцессор инициализирован
+2026-03-18 16:47:48 | INFO     | data.preprocessor:create_training_sequences:349 - Создано 30 обучающих последовательностей
+2026-03-18 16:47:48 | INFO     | data.preprocessor:create_training_sequences:350 -   Input shape: torch.Size([30, 8])
+2026-03-18 16:47:48 | INFO     | data.preprocessor:create_training_sequences:351 -   Target shape: torch.Size([30, 8])
+2026-03-18 16:47:48 | INFO     | data.preprocessor:create_training_sequences:352 -   Features shape: torch.Size([30, 8, 11])
+2026-03-18 16:47:48 | INFO     | __main__:run_training:67 - Создание DataLoader'ов...
+2026-03-18 16:47:48 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 24 образцов
+2026-03-18 16:47:48 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 3 образцов
+2026-03-18 16:47:48 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 3 образцов
+2026-03-18 16:47:48 | INFO     | train.dataset:create_dataloaders:173 - Разбиение данных:
+2026-03-18 16:47:48 | INFO     | train.dataset:create_dataloaders:174 -   Train: 24 (80%)
+2026-03-18 16:47:48 | INFO     | train.dataset:create_dataloaders:175 -   Val:   3 (10%)
+2026-03-18 16:47:48 | INFO     | train.dataset:create_dataloaders:176 -   Test:  3 (10%)
+2026-03-18 16:47:48 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=32, num_batches=0
+2026-03-18 16:47:48 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=32, num_batches=0
+2026-03-18 16:47:48 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=32, num_batches=0
+2026-03-18 16:47:48 | INFO     | __main__:run_training:77 - Инициализация модели...
+2026-03-18 16:47:48 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 16:47:48 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 16:47:48 | INFO     | __main__:run_training:91 - Параметров модели: 1,245,515 (trainable: 1,245,515)
+2026-03-18 16:47:49 | INFO     | train.trainer:__init__:78 - Trainer инициализирован: device=cpu
+2026-03-18 16:47:49 | INFO     | __main__:run_training:97 - Начало обучения...
+2026-03-18 16:47:49 | INFO     | train.trainer:fit:217 - Начало обучения: 100 эпох
+2026-03-18 16:47:49 | INFO     | train.trainer:fit:218 - Сохранение лучшей модели в: c:\Users\user\Documents\Neyro\2\models\best_model.pt
+2026-03-18 16:48:26 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:48:29 | INFO     | __main__:run_training:25 - ==================================================
+2026-03-18 16:48:29 | INFO     | __main__:run_training:26 - Запуск обучения модели
+2026-03-18 16:48:29 | INFO     | __main__:run_training:27 - ==================================================
+2026-03-18 16:48:29 | INFO     | __main__:run_training:30 - Загрузка данных из БД...
+2026-03-18 16:48:29 | INFO     | data.database:__init__:35 - Инициализация БД: c:\Users\user\Documents\Neyro\2\data\clash_royale.db
+2026-03-18 16:48:29 | INFO     | __main__:run_training:41 - В БД: 75 карт, 30 колод
+2026-03-18 16:48:29 | INFO     | data.database:get_filtered_decks:319 - Получено 30 колод после фильтрации
+2026-03-18 16:48:29 | INFO     | __main__:run_training:53 - Загружено 30 колод после фильтрации
+2026-03-18 16:48:29 | INFO     | __main__:run_training:56 - Предобработка данных...
+2026-03-18 16:48:29 | INFO     | data.preprocessor:build:45 - Словарь построен: 75 карт
+2026-03-18 16:48:29 | INFO     | data.preprocessor:__init__:116 - Кодировщик инициализирован, размер признаков: 11
+2026-03-18 16:48:29 | INFO     | data.preprocessor:__init__:204 - Препроцессор инициализирован
+2026-03-18 16:48:29 | INFO     | data.preprocessor:create_training_sequences:349 - Создано 30 обучающих последовательностей
+2026-03-18 16:48:29 | INFO     | data.preprocessor:create_training_sequences:350 -   Input shape: torch.Size([30, 8])
+2026-03-18 16:48:29 | INFO     | data.preprocessor:create_training_sequences:351 -   Target shape: torch.Size([30, 8])
+2026-03-18 16:48:29 | INFO     | data.preprocessor:create_training_sequences:352 -   Features shape: torch.Size([30, 8, 11])
+2026-03-18 16:48:29 | INFO     | __main__:run_training:67 - Создание DataLoader'ов...
+2026-03-18 16:48:29 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 24 образцов
+2026-03-18 16:48:29 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 3 образцов
+2026-03-18 16:48:29 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 3 образцов
+2026-03-18 16:48:29 | INFO     | train.dataset:create_dataloaders:173 - Разбиение данных:
+2026-03-18 16:48:29 | INFO     | train.dataset:create_dataloaders:174 -   Train: 24 (80%)
+2026-03-18 16:48:29 | INFO     | train.dataset:create_dataloaders:175 -   Val:   3 (10%)
+2026-03-18 16:48:29 | INFO     | train.dataset:create_dataloaders:176 -   Test:  3 (10%)
+2026-03-18 16:48:29 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=8, num_batches=3
+2026-03-18 16:48:29 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=8, num_batches=0
+2026-03-18 16:48:29 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=8, num_batches=0
+2026-03-18 16:48:29 | INFO     | __main__:run_training:77 - Инициализация модели...
+2026-03-18 16:48:29 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 16:48:29 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 16:48:29 | INFO     | __main__:run_training:91 - Параметров модели: 1,245,515 (trainable: 1,245,515)
+2026-03-18 16:48:31 | INFO     | train.trainer:__init__:78 - Trainer инициализирован: device=cpu
+2026-03-18 16:48:31 | INFO     | __main__:run_training:97 - Начало обучения...
+2026-03-18 16:48:31 | INFO     | train.trainer:fit:217 - Начало обучения: 50 эпох
+2026-03-18 16:48:31 | INFO     | train.trainer:fit:218 - Сохранение лучшей модели в: c:\Users\user\Documents\Neyro\2\models\best_model.pt
+2026-03-18 16:49:37 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:49:40 | INFO     | __main__:run_training:25 - ==================================================
+2026-03-18 16:49:40 | INFO     | __main__:run_training:26 - Запуск обучения модели
+2026-03-18 16:49:40 | INFO     | __main__:run_training:27 - ==================================================
+2026-03-18 16:49:40 | INFO     | __main__:run_training:30 - Загрузка данных из БД...
+2026-03-18 16:49:40 | INFO     | data.database:__init__:35 - Инициализация БД: c:\Users\user\Documents\Neyro\2\data\clash_royale.db
+2026-03-18 16:49:40 | INFO     | __main__:run_training:41 - В БД: 75 карт, 30 колод
+2026-03-18 16:49:40 | INFO     | data.database:get_filtered_decks:319 - Получено 30 колод после фильтрации
+2026-03-18 16:49:40 | INFO     | __main__:run_training:53 - Загружено 30 колод после фильтрации
+2026-03-18 16:49:40 | INFO     | __main__:run_training:56 - Предобработка данных...
+2026-03-18 16:49:40 | INFO     | data.preprocessor:build:45 - Словарь построен: 75 карт
+2026-03-18 16:49:40 | INFO     | data.preprocessor:__init__:116 - Кодировщик инициализирован, размер признаков: 11
+2026-03-18 16:49:40 | INFO     | data.preprocessor:__init__:204 - Препроцессор инициализирован
+2026-03-18 16:49:40 | INFO     | data.preprocessor:create_training_sequences:349 - Создано 30 обучающих последовательностей
+2026-03-18 16:49:40 | INFO     | data.preprocessor:create_training_sequences:350 -   Input shape: torch.Size([30, 8])
+2026-03-18 16:49:40 | INFO     | data.preprocessor:create_training_sequences:351 -   Target shape: torch.Size([30, 8])
+2026-03-18 16:49:40 | INFO     | data.preprocessor:create_training_sequences:352 -   Features shape: torch.Size([30, 8, 11])
+2026-03-18 16:49:40 | INFO     | __main__:run_training:67 - Создание DataLoader'ов...
+2026-03-18 16:49:40 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 24 образцов
+2026-03-18 16:49:40 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 3 образцов
+2026-03-18 16:49:40 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 3 образцов
+2026-03-18 16:49:40 | INFO     | train.dataset:create_dataloaders:173 - Разбиение данных:
+2026-03-18 16:49:40 | INFO     | train.dataset:create_dataloaders:174 -   Train: 24 (80%)
+2026-03-18 16:49:40 | INFO     | train.dataset:create_dataloaders:175 -   Val:   3 (10%)
+2026-03-18 16:49:40 | INFO     | train.dataset:create_dataloaders:176 -   Test:  3 (10%)
+2026-03-18 16:49:40 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=8, num_batches=3
+2026-03-18 16:49:40 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=8, num_batches=0
+2026-03-18 16:49:40 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=8, num_batches=0
+2026-03-18 16:49:40 | INFO     | __main__:run_training:77 - Инициализация модели...
+2026-03-18 16:49:40 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 16:49:40 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 16:49:40 | INFO     | __main__:run_training:91 - Параметров модели: 1,245,515 (trainable: 1,245,515)
+2026-03-18 16:49:42 | INFO     | train.trainer:__init__:78 - Trainer инициализирован: device=cpu
+2026-03-18 16:49:42 | INFO     | __main__:run_training:97 - Начало обучения...
+2026-03-18 16:49:42 | INFO     | train.trainer:fit:226 - Начало обучения: 50 эпох
+2026-03-18 16:49:42 | INFO     | train.trainer:fit:227 - Сохранение лучшей модели в: c:\Users\user\Documents\Neyro\2\models\best_model.pt
+2026-03-18 16:49:42 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:49:42 | INFO     | train.trainer:fit:243 - Epoch 1/50 | Train Loss: 4.9526 | Train PPL: 141.54 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.4s
+2026-03-18 16:49:42 | INFO     | train.trainer:save_checkpoint:319 - Чекпоинт сохранён: c:\Users\user\Documents\Neyro\2\models\best_model.pt
+2026-03-18 16:49:42 | INFO     | train.trainer:fit:272 - ✓ Новая лучшая модель сохранена (val_loss=0.0000)
+2026-03-18 16:49:43 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:49:43 | INFO     | train.trainer:fit:243 - Epoch 2/50 | Train Loss: 4.4396 | Train PPL: 84.74 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:49:43 | INFO     | train.trainer:fit:275 - Early stopping counter: 1/10
+2026-03-18 16:49:43 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:49:43 | INFO     | train.trainer:fit:243 - Epoch 3/50 | Train Loss: 4.1208 | Train PPL: 61.61 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:49:43 | INFO     | train.trainer:fit:275 - Early stopping counter: 2/10
+2026-03-18 16:49:43 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:49:43 | INFO     | train.trainer:fit:243 - Epoch 4/50 | Train Loss: 3.7721 | Train PPL: 43.47 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:49:43 | INFO     | train.trainer:fit:275 - Early stopping counter: 3/10
+2026-03-18 16:49:44 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:49:44 | INFO     | train.trainer:fit:243 - Epoch 5/50 | Train Loss: 3.5159 | Train PPL: 33.65 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:49:44 | INFO     | train.trainer:fit:275 - Early stopping counter: 4/10
+2026-03-18 16:49:44 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:49:44 | INFO     | train.trainer:fit:243 - Epoch 6/50 | Train Loss: 3.3388 | Train PPL: 28.18 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:49:44 | INFO     | train.trainer:fit:275 - Early stopping counter: 5/10
+2026-03-18 16:49:44 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:49:44 | INFO     | train.trainer:fit:243 - Epoch 7/50 | Train Loss: 3.2823 | Train PPL: 26.64 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:49:44 | INFO     | train.trainer:fit:275 - Early stopping counter: 6/10
+2026-03-18 16:49:45 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:49:45 | INFO     | train.trainer:fit:243 - Epoch 8/50 | Train Loss: 3.1982 | Train PPL: 24.49 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:49:45 | INFO     | train.trainer:fit:275 - Early stopping counter: 7/10
+2026-03-18 16:49:45 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:49:45 | INFO     | train.trainer:fit:243 - Epoch 9/50 | Train Loss: 3.0817 | Train PPL: 21.80 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:49:45 | INFO     | train.trainer:fit:275 - Early stopping counter: 8/10
+2026-03-18 16:49:45 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:49:45 | INFO     | train.trainer:fit:243 - Epoch 10/50 | Train Loss: 2.9969 | Train PPL: 20.02 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:49:45 | INFO     | train.trainer:fit:275 - Early stopping counter: 9/10
+2026-03-18 16:49:45 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:49:45 | INFO     | train.trainer:fit:243 - Epoch 11/50 | Train Loss: 3.0113 | Train PPL: 20.31 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:49:45 | INFO     | train.trainer:fit:275 - Early stopping counter: 10/10
+2026-03-18 16:49:45 | INFO     | train.trainer:fit:278 - Ранняя остановка на эпохе 11
+2026-03-18 16:49:45 | INFO     | train.trainer:fit:282 - Обучение завершено за 3.5s
+2026-03-18 16:49:45 | INFO     | train.trainer:fit:283 - Лучший val_loss: 0.0000
+2026-03-18 16:49:45 | INFO     | __main__:run_training:106 - Сохранение препроцессора...
+2026-03-18 16:49:45 | INFO     | data.preprocessor:save:66 - Словарь сохранён: c:\Users\user\Documents\Neyro\2\data\preprocessor\vocabulary.pkl
+2026-03-18 16:49:45 | INFO     | data.preprocessor:save:397 - Препроцессор сохранён: c:\Users\user\Documents\Neyro\2\data\preprocessor
+2026-03-18 16:49:45 | INFO     | __main__:run_training:114 - ==================================================
+2026-03-18 16:49:45 | INFO     | __main__:run_training:115 - Обучение завершено!
+2026-03-18 16:49:45 | INFO     | __main__:run_training:116 - Лучший val_loss: 0.0000
+2026-03-18 16:49:45 | INFO     | __main__:run_training:117 - Эпох пройдено: 11
+2026-03-18 16:49:45 | INFO     | __main__:run_training:118 - ==================================================
+2026-03-18 16:49:45 | INFO     | __main__:run_training:121 - Тестирование на test выборке...
+2026-03-18 16:49:45 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:49:45 | INFO     | __main__:run_training:123 - Test Loss: 0.0000 | Test Perplexity: 1.00
+2026-03-18 16:50:02 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:50:02 | INFO     | __main__:main:39 - ==================================================
+2026-03-18 16:50:02 | INFO     | __main__:main:40 - Запуск веб-приложения
+2026-03-18 16:50:02 | INFO     | __main__:main:41 - ==================================================
+2026-03-18 16:50:02 | INFO     | __main__:main:42 - Хост: 0.0.0.0
+2026-03-18 16:50:02 | INFO     | __main__:main:43 - Порт: 8000
+2026-03-18 16:50:02 | INFO     | web.app:startup_event:137 - Запуск приложения...
+2026-03-18 16:50:02 | ERROR    | web.app:load_model:131 - Ошибка загрузки модели: DataPreprocessor.load() missing 1 required positional argument: 'cards'
+2026-03-18 16:55:01 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:19 - ==================================================
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:20 - Запуск ETL Pipeline
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:21 - ==================================================
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:24 - Инициализация базы данных...
+2026-03-18 16:55:05 | INFO     | data.database:__init__:35 - Инициализация БД: c:\Users\user\Documents\Neyro\2\data\clash_royale.db
+2026-03-18 16:55:05 | INFO     | data.database:create_tables:124 - Таблицы БД созданы
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:30 - Инициализация парсера...
+2026-03-18 16:55:05 | INFO     | data.parser:__init__:197 - ClashRoyaleAPI инициализирован (встроенная база)
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:35 - Загрузка карт...
+2026-03-18 16:55:05 | INFO     | data.parser:get_all_cards:206 - Загрузка 75 карт из встроенной базы...
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:43 - Сохранение 75 карт в БД...
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:47 - ✓ Карты сохранены: 75
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:50 - Загрузка колод...
+2026-03-18 16:55:05 | INFO     | data.parser:get_top_decks:224 - Загрузка колод из встроенной базы (лимит: 500)...
+2026-03-18 16:55:05 | INFO     | data.parser:get_top_decks:248 - Загружено 30 колод
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:58 - Сохранение 30 колод в БД...
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:79 - ✓ Колоды сохранены: 30
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:83 - ==================================================
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:84 - Статистика БД:
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:85 -   Всего карт: 75
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:86 -   Всего колод: 30
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:87 -   Средний winrate: 49.50%
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:88 - ==================================================
+2026-03-18 16:55:05 | INFO     | __main__:run_etl:90 - ✓ ETL Pipeline завершён успешно
+2026-03-18 16:55:32 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:55:35 | INFO     | __main__:run_training:25 - ==================================================
+2026-03-18 16:55:35 | INFO     | __main__:run_training:26 - Запуск обучения модели
+2026-03-18 16:55:35 | INFO     | __main__:run_training:27 - ==================================================
+2026-03-18 16:55:35 | INFO     | __main__:run_training:30 - Загрузка данных из БД...
+2026-03-18 16:55:35 | INFO     | data.database:__init__:35 - Инициализация БД: c:\Users\user\Documents\Neyro\2\data\clash_royale.db
+2026-03-18 16:55:35 | INFO     | __main__:run_training:41 - В БД: 75 карт, 30 колод
+2026-03-18 16:55:35 | INFO     | data.database:get_filtered_decks:319 - Получено 30 колод после фильтрации
+2026-03-18 16:55:35 | INFO     | __main__:run_training:53 - Загружено 30 колод после фильтрации
+2026-03-18 16:55:35 | INFO     | __main__:run_training:56 - Предобработка данных...
+2026-03-18 16:55:35 | INFO     | data.preprocessor:build:45 - Словарь построен: 75 карт
+2026-03-18 16:55:35 | INFO     | data.preprocessor:__init__:116 - Кодировщик инициализирован, размер признаков: 11
+2026-03-18 16:55:35 | INFO     | data.preprocessor:__init__:204 - Препроцессор инициализирован
+2026-03-18 16:55:35 | INFO     | data.preprocessor:create_training_sequences:349 - Создано 30 обучающих последовательностей
+2026-03-18 16:55:35 | INFO     | data.preprocessor:create_training_sequences:350 -   Input shape: torch.Size([30, 8])
+2026-03-18 16:55:35 | INFO     | data.preprocessor:create_training_sequences:351 -   Target shape: torch.Size([30, 8])
+2026-03-18 16:55:35 | INFO     | data.preprocessor:create_training_sequences:352 -   Features shape: torch.Size([30, 8, 11])
+2026-03-18 16:55:35 | INFO     | __main__:run_training:67 - Создание DataLoader'ов...
+2026-03-18 16:55:35 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 24 образцов
+2026-03-18 16:55:35 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 3 образцов
+2026-03-18 16:55:35 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 3 образцов
+2026-03-18 16:55:35 | INFO     | train.dataset:create_dataloaders:173 - Разбиение данных:
+2026-03-18 16:55:35 | INFO     | train.dataset:create_dataloaders:174 -   Train: 24 (80%)
+2026-03-18 16:55:35 | INFO     | train.dataset:create_dataloaders:175 -   Val:   3 (10%)
+2026-03-18 16:55:35 | INFO     | train.dataset:create_dataloaders:176 -   Test:  3 (10%)
+2026-03-18 16:55:35 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=8, num_batches=3
+2026-03-18 16:55:35 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=8, num_batches=0
+2026-03-18 16:55:35 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=8, num_batches=0
+2026-03-18 16:55:35 | INFO     | __main__:run_training:77 - Инициализация модели...
+2026-03-18 16:55:35 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 16:55:35 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 16:55:35 | INFO     | __main__:run_training:91 - Параметров модели: 1,245,515 (trainable: 1,245,515)
+2026-03-18 16:55:38 | INFO     | train.trainer:__init__:78 - Trainer инициализирован: device=cpu
+2026-03-18 16:55:38 | INFO     | __main__:run_training:97 - Начало обучения...
+2026-03-18 16:55:38 | INFO     | train.trainer:fit:226 - Начало обучения: 50 эпох
+2026-03-18 16:55:38 | INFO     | train.trainer:fit:227 - Сохранение лучшей модели в: c:\Users\user\Documents\Neyro\2\models\best_model.pt
+2026-03-18 16:55:38 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:55:38 | INFO     | train.trainer:fit:243 - Epoch 1/50 | Train Loss: 4.9601 | Train PPL: 142.61 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.4s
+2026-03-18 16:55:38 | INFO     | train.trainer:save_checkpoint:319 - Чекпоинт сохранён: c:\Users\user\Documents\Neyro\2\models\best_model.pt
+2026-03-18 16:55:38 | INFO     | train.trainer:fit:272 - ✓ Новая лучшая модель сохранена (val_loss=0.0000)
+2026-03-18 16:55:38 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:55:38 | INFO     | train.trainer:fit:243 - Epoch 2/50 | Train Loss: 4.3653 | Train PPL: 78.67 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:55:38 | INFO     | train.trainer:fit:275 - Early stopping counter: 1/10
+2026-03-18 16:55:39 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:55:39 | INFO     | train.trainer:fit:243 - Epoch 3/50 | Train Loss: 3.7792 | Train PPL: 43.78 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:55:39 | INFO     | train.trainer:fit:275 - Early stopping counter: 2/10
+2026-03-18 16:55:39 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:55:39 | INFO     | train.trainer:fit:243 - Epoch 4/50 | Train Loss: 3.4662 | Train PPL: 32.02 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:55:39 | INFO     | train.trainer:fit:275 - Early stopping counter: 3/10
+2026-03-18 16:55:39 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:55:39 | INFO     | train.trainer:fit:243 - Epoch 5/50 | Train Loss: 3.2691 | Train PPL: 26.29 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:55:39 | INFO     | train.trainer:fit:275 - Early stopping counter: 4/10
+2026-03-18 16:55:39 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:55:39 | INFO     | train.trainer:fit:243 - Epoch 6/50 | Train Loss: 3.0817 | Train PPL: 21.80 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:55:39 | INFO     | train.trainer:fit:275 - Early stopping counter: 5/10
+2026-03-18 16:55:40 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:55:40 | INFO     | train.trainer:fit:243 - Epoch 7/50 | Train Loss: 2.9304 | Train PPL: 18.73 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:55:40 | INFO     | train.trainer:fit:275 - Early stopping counter: 6/10
+2026-03-18 16:55:40 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:55:40 | INFO     | train.trainer:fit:243 - Epoch 8/50 | Train Loss: 2.9128 | Train PPL: 18.41 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:55:40 | INFO     | train.trainer:fit:275 - Early stopping counter: 7/10
+2026-03-18 16:55:40 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:55:40 | INFO     | train.trainer:fit:243 - Epoch 9/50 | Train Loss: 2.8037 | Train PPL: 16.51 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:55:40 | INFO     | train.trainer:fit:275 - Early stopping counter: 8/10
+2026-03-18 16:55:41 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:55:41 | INFO     | train.trainer:fit:243 - Epoch 10/50 | Train Loss: 2.7372 | Train PPL: 15.44 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:55:41 | INFO     | train.trainer:fit:275 - Early stopping counter: 9/10
+2026-03-18 16:55:41 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:55:41 | INFO     | train.trainer:fit:243 - Epoch 11/50 | Train Loss: 2.6641 | Train PPL: 14.35 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 16:55:41 | INFO     | train.trainer:fit:275 - Early stopping counter: 10/10
+2026-03-18 16:55:41 | INFO     | train.trainer:fit:278 - Ранняя остановка на эпохе 11
+2026-03-18 16:55:41 | INFO     | train.trainer:fit:282 - Обучение завершено за 3.3s
+2026-03-18 16:55:41 | INFO     | train.trainer:fit:283 - Лучший val_loss: 0.0000
+2026-03-18 16:55:41 | INFO     | __main__:run_training:106 - Сохранение препроцессора...
+2026-03-18 16:55:41 | INFO     | data.preprocessor:save:66 - Словарь сохранён: c:\Users\user\Documents\Neyro\2\data\preprocessor\vocabulary.pkl
+2026-03-18 16:55:41 | INFO     | data.preprocessor:save:397 - Препроцессор сохранён: c:\Users\user\Documents\Neyro\2\data\preprocessor
+2026-03-18 16:55:41 | INFO     | __main__:run_training:114 - ==================================================
+2026-03-18 16:55:41 | INFO     | __main__:run_training:115 - Обучение завершено!
+2026-03-18 16:55:41 | INFO     | __main__:run_training:116 - Лучший val_loss: 0.0000
+2026-03-18 16:55:41 | INFO     | __main__:run_training:117 - Эпох пройдено: 11
+2026-03-18 16:55:41 | INFO     | __main__:run_training:118 - ==================================================
+2026-03-18 16:55:41 | INFO     | __main__:run_training:121 - Тестирование на test выборке...
+2026-03-18 16:55:41 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 16:55:41 | INFO     | __main__:run_training:123 - Test Loss: 0.0000 | Test Perplexity: 1.00
+2026-03-18 16:56:23 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:56:23 | INFO     | __main__:main:39 - ==================================================
+2026-03-18 16:56:23 | INFO     | __main__:main:40 - Запуск веб-приложения
+2026-03-18 16:56:23 | INFO     | __main__:main:41 - ==================================================
+2026-03-18 16:56:23 | INFO     | __main__:main:42 - Хост: 0.0.0.0
+2026-03-18 16:56:23 | INFO     | __main__:main:43 - Порт: 8000
+2026-03-18 16:56:23 | INFO     | web.app:startup_event:137 - Запуск приложения...
+2026-03-18 16:56:24 | ERROR    | web.app:load_model:131 - Ошибка загрузки модели: DataPreprocessor.load() missing 1 required positional argument: 'cards'
+2026-03-18 16:58:16 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 16:58:16 | INFO     | __main__:main:39 - ==================================================
+2026-03-18 16:58:16 | INFO     | __main__:main:40 - Запуск веб-приложения
+2026-03-18 16:58:16 | INFO     | __main__:main:41 - ==================================================
+2026-03-18 16:58:16 | INFO     | __main__:main:42 - Хост: 0.0.0.0
+2026-03-18 16:58:16 | INFO     | __main__:main:43 - Порт: 8000
+2026-03-18 16:58:16 | INFO     | web.app:startup_event:163 - Запуск приложения...
+2026-03-18 16:58:16 | INFO     | rule_engine.rule_engine:__init__:50 - SlotValidator инициализирован
+2026-03-18 16:58:16 | INFO     | rule_engine.rule_engine:__init__:51 -   Evolution карт: 28
+2026-03-18 16:58:16 | INFO     | rule_engine.rule_engine:__init__:52 -   Hero карт: 4
+2026-03-18 16:58:16 | INFO     | rule_engine.rule_engine:__init__:53 -   Champion карт: 5
+2026-03-18 16:58:16 | INFO     | rule_engine.rule_engine:__init__:205 - RuleEngine инициализирован: vocab_size=75
+2026-03-18 16:58:16 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 16:58:17 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 16:58:17 | INFO     | web.app:load_model:150 - Модель загружена успешно
+2026-03-18 17:03:06 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:03:06 | INFO     | __main__:main:39 - ==================================================
+2026-03-18 17:03:06 | INFO     | __main__:main:40 - Запуск веб-приложения
+2026-03-18 17:03:06 | INFO     | __main__:main:41 - ==================================================
+2026-03-18 17:03:06 | INFO     | __main__:main:42 - Хост: 0.0.0.0
+2026-03-18 17:03:06 | INFO     | __main__:main:43 - Порт: 8000
+2026-03-18 17:03:06 | INFO     | web.app:startup_event:163 - Запуск приложения...
+2026-03-18 17:03:06 | INFO     | rule_engine.rule_engine:__init__:50 - SlotValidator инициализирован
+2026-03-18 17:03:06 | INFO     | rule_engine.rule_engine:__init__:51 -   Evolution карт: 28
+2026-03-18 17:03:06 | INFO     | rule_engine.rule_engine:__init__:52 -   Hero карт: 4
+2026-03-18 17:03:06 | INFO     | rule_engine.rule_engine:__init__:53 -   Champion карт: 5
+2026-03-18 17:03:06 | INFO     | rule_engine.rule_engine:__init__:205 - RuleEngine инициализирован: vocab_size=75
+2026-03-18 17:03:06 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:03:06 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:03:06 | INFO     | web.app:load_model:150 - Модель загружена успешно
+2026-03-18 17:04:09 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:04:09 | INFO     | web.app:startup_event:163 - Запуск приложения...
+2026-03-18 17:04:09 | INFO     | rule_engine.rule_engine:__init__:50 - SlotValidator инициализирован
+2026-03-18 17:04:09 | INFO     | rule_engine.rule_engine:__init__:51 -   Evolution карт: 28
+2026-03-18 17:04:09 | INFO     | rule_engine.rule_engine:__init__:52 -   Hero карт: 4
+2026-03-18 17:04:09 | INFO     | rule_engine.rule_engine:__init__:53 -   Champion карт: 5
+2026-03-18 17:04:09 | INFO     | rule_engine.rule_engine:__init__:205 - RuleEngine инициализирован: vocab_size=75
+2026-03-18 17:04:09 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:04:09 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:04:09 | INFO     | web.app:load_model:150 - Модель загружена успешно
+2026-03-18 17:06:25 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:06:25 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:06:25 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:06:50 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:06:50 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:06:50 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:07:06 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:07:06 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:07:06 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:11:41 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:11:44 | INFO     | __main__:run_etl:19 - ==================================================
+2026-03-18 17:11:44 | INFO     | __main__:run_etl:20 - Запуск ETL Pipeline
+2026-03-18 17:11:44 | INFO     | __main__:run_etl:21 - ==================================================
+2026-03-18 17:11:44 | INFO     | __main__:run_etl:24 - Инициализация базы данных...
+2026-03-18 17:11:44 | INFO     | data.database:__init__:35 - Инициализация БД: c:\Users\user\Documents\Neyro\2\data\clash_royale.db
+2026-03-18 17:11:44 | INFO     | data.database:create_tables:124 - Таблицы БД созданы
+2026-03-18 17:11:44 | INFO     | __main__:run_etl:30 - Инициализация парсера...
+2026-03-18 17:11:44 | INFO     | data.parser:__init__:197 - ClashRoyaleAPI инициализирован (встроенная база)
+2026-03-18 17:11:44 | INFO     | __main__:run_etl:35 - Загрузка карт...
+2026-03-18 17:11:44 | INFO     | data.parser:get_all_cards:206 - Загрузка 75 карт из встроенной базы...
+2026-03-18 17:11:44 | INFO     | __main__:run_etl:43 - Сохранение 75 карт в БД...
+2026-03-18 17:11:45 | INFO     | __main__:run_etl:47 - ✓ Карты сохранены: 75
+2026-03-18 17:11:45 | INFO     | __main__:run_etl:50 - Загрузка колод...
+2026-03-18 17:11:45 | INFO     | data.parser:get_top_decks:224 - Загрузка колод из встроенной базы (лимит: 500)...
+2026-03-18 17:11:45 | INFO     | data.parser:get_top_decks:248 - Загружено 30 колод
+2026-03-18 17:11:45 | INFO     | __main__:run_etl:58 - Сохранение 30 колод в БД...
+2026-03-18 17:11:45 | INFO     | __main__:run_etl:79 - ✓ Колоды сохранены: 30
+2026-03-18 17:11:45 | INFO     | __main__:run_etl:83 - ==================================================
+2026-03-18 17:11:45 | INFO     | __main__:run_etl:84 - Статистика БД:
+2026-03-18 17:11:45 | INFO     | __main__:run_etl:85 -   Всего карт: 75
+2026-03-18 17:11:45 | INFO     | __main__:run_etl:86 -   Всего колод: 30
+2026-03-18 17:11:45 | INFO     | __main__:run_etl:87 -   Средний winrate: 49.50%
+2026-03-18 17:11:45 | INFO     | __main__:run_etl:88 - ==================================================
+2026-03-18 17:11:45 | INFO     | __main__:run_etl:90 - ✓ ETL Pipeline завершён успешно
+2026-03-18 17:12:11 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:12:15 | INFO     | __main__:run_training:25 - ==================================================
+2026-03-18 17:12:15 | INFO     | __main__:run_training:26 - Запуск обучения модели
+2026-03-18 17:12:15 | INFO     | __main__:run_training:27 - ==================================================
+2026-03-18 17:12:15 | INFO     | __main__:run_training:30 - Загрузка данных из БД...
+2026-03-18 17:12:15 | INFO     | data.database:__init__:35 - Инициализация БД: c:\Users\user\Documents\Neyro\2\data\clash_royale.db
+2026-03-18 17:12:15 | INFO     | __main__:run_training:41 - В БД: 75 карт, 30 колод
+2026-03-18 17:12:15 | INFO     | data.database:get_filtered_decks:319 - Получено 30 колод после фильтрации
+2026-03-18 17:12:15 | INFO     | __main__:run_training:53 - Загружено 30 колод после фильтрации
+2026-03-18 17:12:15 | INFO     | __main__:run_training:56 - Предобработка данных...
+2026-03-18 17:12:15 | INFO     | data.preprocessor:build:45 - Словарь построен: 75 карт
+2026-03-18 17:12:15 | INFO     | data.preprocessor:__init__:116 - Кодировщик инициализирован, размер признаков: 11
+2026-03-18 17:12:15 | INFO     | data.preprocessor:__init__:204 - Препроцессор инициализирован
+2026-03-18 17:12:15 | INFO     | data.preprocessor:create_training_sequences:349 - Создано 30 обучающих последовательностей
+2026-03-18 17:12:15 | INFO     | data.preprocessor:create_training_sequences:350 -   Input shape: torch.Size([30, 8])
+2026-03-18 17:12:15 | INFO     | data.preprocessor:create_training_sequences:351 -   Target shape: torch.Size([30, 8])
+2026-03-18 17:12:15 | INFO     | data.preprocessor:create_training_sequences:352 -   Features shape: torch.Size([30, 8, 11])
+2026-03-18 17:12:15 | INFO     | __main__:run_training:67 - Создание DataLoader'ов...
+2026-03-18 17:12:15 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 24 образцов
+2026-03-18 17:12:15 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 3 образцов
+2026-03-18 17:12:15 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 3 образцов
+2026-03-18 17:12:15 | INFO     | train.dataset:create_dataloaders:173 - Разбиение данных:
+2026-03-18 17:12:15 | INFO     | train.dataset:create_dataloaders:174 -   Train: 24 (80%)
+2026-03-18 17:12:15 | INFO     | train.dataset:create_dataloaders:175 -   Val:   3 (10%)
+2026-03-18 17:12:15 | INFO     | train.dataset:create_dataloaders:176 -   Test:  3 (10%)
+2026-03-18 17:12:15 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=8, num_batches=3
+2026-03-18 17:12:15 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=8, num_batches=0
+2026-03-18 17:12:15 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=8, num_batches=0
+2026-03-18 17:12:15 | INFO     | __main__:run_training:77 - Инициализация модели...
+2026-03-18 17:12:15 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:12:15 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:12:15 | INFO     | __main__:run_training:91 - Параметров модели: 1,245,515 (trainable: 1,245,515)
+2026-03-18 17:12:16 | INFO     | train.trainer:__init__:78 - Trainer инициализирован: device=cpu
+2026-03-18 17:12:16 | INFO     | __main__:run_training:97 - Начало обучения...
+2026-03-18 17:12:16 | INFO     | train.trainer:fit:226 - Начало обучения: 50 эпох
+2026-03-18 17:12:16 | INFO     | train.trainer:fit:227 - Сохранение лучшей модели в: c:\Users\user\Documents\Neyro\2\models\best_model.pt
+2026-03-18 17:12:17 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 17:12:17 | INFO     | train.trainer:fit:243 - Epoch 1/50 | Train Loss: 4.8683 | Train PPL: 130.09 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 17:12:17 | INFO     | train.trainer:save_checkpoint:319 - Чекпоинт сохранён: c:\Users\user\Documents\Neyro\2\models\best_model.pt
+2026-03-18 17:12:17 | INFO     | train.trainer:fit:272 - ✓ Новая лучшая модель сохранена (val_loss=0.0000)
+2026-03-18 17:12:17 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 17:12:17 | INFO     | train.trainer:fit:243 - Epoch 2/50 | Train Loss: 4.4196 | Train PPL: 83.06 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.4s
+2026-03-18 17:12:17 | INFO     | train.trainer:fit:275 - Early stopping counter: 1/10
+2026-03-18 17:12:17 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 17:12:17 | INFO     | train.trainer:fit:243 - Epoch 3/50 | Train Loss: 4.0006 | Train PPL: 54.63 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 17:12:17 | INFO     | train.trainer:fit:275 - Early stopping counter: 2/10
+2026-03-18 17:12:18 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 17:12:18 | INFO     | train.trainer:fit:243 - Epoch 4/50 | Train Loss: 3.7052 | Train PPL: 40.66 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 17:12:18 | INFO     | train.trainer:fit:275 - Early stopping counter: 3/10
+2026-03-18 17:12:18 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 17:12:18 | INFO     | train.trainer:fit:243 - Epoch 5/50 | Train Loss: 3.4212 | Train PPL: 30.61 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 17:12:18 | INFO     | train.trainer:fit:275 - Early stopping counter: 4/10
+2026-03-18 17:12:18 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 17:12:18 | INFO     | train.trainer:fit:243 - Epoch 6/50 | Train Loss: 3.3138 | Train PPL: 27.49 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 17:12:18 | INFO     | train.trainer:fit:275 - Early stopping counter: 5/10
+2026-03-18 17:12:19 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 17:12:19 | INFO     | train.trainer:fit:243 - Epoch 7/50 | Train Loss: 3.1845 | Train PPL: 24.16 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 17:12:19 | INFO     | train.trainer:fit:275 - Early stopping counter: 6/10
+2026-03-18 17:12:19 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 17:12:19 | INFO     | train.trainer:fit:243 - Epoch 8/50 | Train Loss: 3.1063 | Train PPL: 22.34 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 17:12:19 | INFO     | train.trainer:fit:275 - Early stopping counter: 7/10
+2026-03-18 17:12:19 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 17:12:19 | INFO     | train.trainer:fit:243 - Epoch 9/50 | Train Loss: 3.0030 | Train PPL: 20.15 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 17:12:19 | INFO     | train.trainer:fit:275 - Early stopping counter: 8/10
+2026-03-18 17:12:19 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 17:12:19 | INFO     | train.trainer:fit:243 - Epoch 10/50 | Train Loss: 2.9701 | Train PPL: 19.49 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 17:12:19 | INFO     | train.trainer:fit:275 - Early stopping counter: 9/10
+2026-03-18 17:12:20 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 17:12:20 | INFO     | train.trainer:fit:243 - Epoch 11/50 | Train Loss: 2.8980 | Train PPL: 18.14 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.3s
+2026-03-18 17:12:20 | INFO     | train.trainer:fit:275 - Early stopping counter: 10/10
+2026-03-18 17:12:20 | INFO     | train.trainer:fit:278 - Ранняя остановка на эпохе 11
+2026-03-18 17:12:20 | INFO     | train.trainer:fit:282 - Обучение завершено за 3.3s
+2026-03-18 17:12:20 | INFO     | train.trainer:fit:283 - Лучший val_loss: 0.0000
+2026-03-18 17:12:20 | INFO     | __main__:run_training:106 - Сохранение препроцессора...
+2026-03-18 17:12:20 | INFO     | data.preprocessor:save:66 - Словарь сохранён: c:\Users\user\Documents\Neyro\2\data\preprocessor\vocabulary.pkl
+2026-03-18 17:12:20 | INFO     | data.preprocessor:save:397 - Препроцессор сохранён: c:\Users\user\Documents\Neyro\2\data\preprocessor
+2026-03-18 17:12:20 | INFO     | __main__:run_training:114 - ==================================================
+2026-03-18 17:12:20 | INFO     | __main__:run_training:115 - Обучение завершено!
+2026-03-18 17:12:20 | INFO     | __main__:run_training:116 - Лучший val_loss: 0.0000
+2026-03-18 17:12:20 | INFO     | __main__:run_training:117 - Эпох пройдено: 11
+2026-03-18 17:12:20 | INFO     | __main__:run_training:118 - ==================================================
+2026-03-18 17:12:20 | INFO     | __main__:run_training:121 - Тестирование на test выборке...
+2026-03-18 17:12:20 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 17:12:20 | INFO     | __main__:run_training:123 - Test Loss: 0.0000 | Test Perplexity: 1.00
+2026-03-18 17:12:33 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:12:33 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:12:33 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:12:42 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:12:42 | INFO     | __main__:main:39 - ==================================================
+2026-03-18 17:12:42 | INFO     | __main__:main:40 - Запуск веб-приложения
+2026-03-18 17:12:42 | INFO     | __main__:main:41 - ==================================================
+2026-03-18 17:12:42 | INFO     | __main__:main:42 - Хост: 0.0.0.0
+2026-03-18 17:12:42 | INFO     | __main__:main:43 - Порт: 8000
+2026-03-18 17:12:43 | INFO     | web.app:startup_event:163 - Запуск приложения...
+2026-03-18 17:12:43 | INFO     | rule_engine.rule_engine:__init__:50 - SlotValidator инициализирован
+2026-03-18 17:12:43 | INFO     | rule_engine.rule_engine:__init__:51 -   Evolution карт: 28
+2026-03-18 17:12:43 | INFO     | rule_engine.rule_engine:__init__:52 -   Hero карт: 4
+2026-03-18 17:12:43 | INFO     | rule_engine.rule_engine:__init__:53 -   Champion карт: 5
+2026-03-18 17:12:43 | INFO     | rule_engine.rule_engine:__init__:205 - RuleEngine инициализирован: vocab_size=75
+2026-03-18 17:12:43 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:12:43 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:12:43 | INFO     | web.app:load_model:150 - Модель загружена успешно
+2026-03-18 17:15:56 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:15:56 | INFO     | __main__:main:39 - ==================================================
+2026-03-18 17:15:56 | INFO     | __main__:main:40 - Запуск веб-приложения
+2026-03-18 17:15:56 | INFO     | __main__:main:41 - ==================================================
+2026-03-18 17:15:56 | INFO     | __main__:main:42 - Хост: 0.0.0.0
+2026-03-18 17:15:56 | INFO     | __main__:main:43 - Порт: 8001
+2026-03-18 17:15:56 | INFO     | web.app:startup_event:163 - Запуск приложения...
+2026-03-18 17:15:57 | INFO     | rule_engine.rule_engine:__init__:50 - SlotValidator инициализирован
+2026-03-18 17:15:57 | INFO     | rule_engine.rule_engine:__init__:51 -   Evolution карт: 28
+2026-03-18 17:15:57 | INFO     | rule_engine.rule_engine:__init__:52 -   Hero карт: 4
+2026-03-18 17:15:57 | INFO     | rule_engine.rule_engine:__init__:53 -   Champion карт: 5
+2026-03-18 17:15:57 | INFO     | rule_engine.rule_engine:__init__:205 - RuleEngine инициализирован: vocab_size=75
+2026-03-18 17:15:57 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:15:57 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:15:57 | INFO     | web.app:load_model:150 - Модель загружена успешно
+2026-03-18 17:21:52 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:21:52 | INFO     | web.app:startup_event:163 - Запуск приложения...
+2026-03-18 17:21:52 | INFO     | rule_engine.rule_engine:__init__:50 - SlotValidator инициализирован
+2026-03-18 17:21:52 | INFO     | rule_engine.rule_engine:__init__:51 -   Evolution карт: 28
+2026-03-18 17:21:52 | INFO     | rule_engine.rule_engine:__init__:52 -   Hero карт: 4
+2026-03-18 17:21:52 | INFO     | rule_engine.rule_engine:__init__:53 -   Champion карт: 5
+2026-03-18 17:21:52 | INFO     | rule_engine.rule_engine:__init__:205 - RuleEngine инициализирован: vocab_size=75
+2026-03-18 17:21:53 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:21:53 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:21:53 | INFO     | web.app:load_model:150 - Модель загружена успешно
+2026-03-18 17:24:17 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:24:17 | INFO     | __main__:main:39 - ==================================================
+2026-03-18 17:24:17 | INFO     | __main__:main:40 - Запуск веб-приложения
+2026-03-18 17:24:17 | INFO     | __main__:main:41 - ==================================================
+2026-03-18 17:24:17 | INFO     | __main__:main:42 - Хост: 0.0.0.0
+2026-03-18 17:24:17 | INFO     | __main__:main:43 - Порт: 8001
+2026-03-18 17:24:17 | INFO     | web.app:startup_event:163 - Запуск приложения...
+2026-03-18 17:24:17 | INFO     | rule_engine.rule_engine:__init__:50 - SlotValidator инициализирован
+2026-03-18 17:24:17 | INFO     | rule_engine.rule_engine:__init__:51 -   Evolution карт: 28
+2026-03-18 17:24:17 | INFO     | rule_engine.rule_engine:__init__:52 -   Hero карт: 4
+2026-03-18 17:24:17 | INFO     | rule_engine.rule_engine:__init__:53 -   Champion карт: 5
+2026-03-18 17:24:17 | INFO     | rule_engine.rule_engine:__init__:205 - RuleEngine инициализирован: vocab_size=75
+2026-03-18 17:24:18 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:24:18 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:24:18 | INFO     | web.app:load_model:150 - Модель загружена успешно
+2026-03-18 17:24:41 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:24:41 | INFO     | __main__:main:39 - ==================================================
+2026-03-18 17:24:41 | INFO     | __main__:main:40 - Запуск веб-приложения
+2026-03-18 17:24:41 | INFO     | __main__:main:41 - ==================================================
+2026-03-18 17:24:41 | INFO     | __main__:main:42 - Хост: 0.0.0.0
+2026-03-18 17:24:41 | INFO     | __main__:main:43 - Порт: 8002
+2026-03-18 17:24:42 | INFO     | web.app:startup_event:163 - Запуск приложения...
+2026-03-18 17:24:42 | INFO     | rule_engine.rule_engine:__init__:50 - SlotValidator инициализирован
+2026-03-18 17:24:42 | INFO     | rule_engine.rule_engine:__init__:51 -   Evolution карт: 28
+2026-03-18 17:24:42 | INFO     | rule_engine.rule_engine:__init__:52 -   Hero карт: 4
+2026-03-18 17:24:42 | INFO     | rule_engine.rule_engine:__init__:53 -   Champion карт: 5
+2026-03-18 17:24:42 | INFO     | rule_engine.rule_engine:__init__:205 - RuleEngine инициализирован: vocab_size=75
+2026-03-18 17:24:42 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:24:42 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:24:42 | INFO     | web.app:load_model:150 - Модель загружена успешно
+2026-03-18 17:27:15 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:27:15 | INFO     | __main__:main:39 - ==================================================
+2026-03-18 17:27:15 | INFO     | __main__:main:40 - Запуск веб-приложения
+2026-03-18 17:27:15 | INFO     | __main__:main:41 - ==================================================
+2026-03-18 17:27:15 | INFO     | __main__:main:42 - Хост: 0.0.0.0
+2026-03-18 17:27:15 | INFO     | __main__:main:43 - Порт: 8001
+2026-03-18 17:27:15 | INFO     | web.app:startup_event:163 - Запуск приложения...
+2026-03-18 17:27:15 | INFO     | rule_engine.rule_engine:__init__:50 - SlotValidator инициализирован
+2026-03-18 17:27:15 | INFO     | rule_engine.rule_engine:__init__:51 -   Evolution карт: 28
+2026-03-18 17:27:15 | INFO     | rule_engine.rule_engine:__init__:52 -   Hero карт: 4
+2026-03-18 17:27:15 | INFO     | rule_engine.rule_engine:__init__:53 -   Champion карт: 5
+2026-03-18 17:27:15 | INFO     | rule_engine.rule_engine:__init__:205 - RuleEngine инициализирован: vocab_size=75
+2026-03-18 17:27:16 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:27:16 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:27:16 | INFO     | web.app:load_model:150 - Модель загружена успешно
+2026-03-18 17:28:57 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:28:57 | INFO     | __main__:main:39 - ==================================================
+2026-03-18 17:28:57 | INFO     | __main__:main:40 - Запуск веб-приложения
+2026-03-18 17:28:57 | INFO     | __main__:main:41 - ==================================================
+2026-03-18 17:28:57 | INFO     | __main__:main:42 - Хост: 0.0.0.0
+2026-03-18 17:28:57 | INFO     | __main__:main:43 - Порт: 8002
+2026-03-18 17:28:57 | INFO     | web.app:startup_event:163 - Запуск приложения...
+2026-03-18 17:28:58 | INFO     | rule_engine.rule_engine:__init__:50 - SlotValidator инициализирован
+2026-03-18 17:28:58 | INFO     | rule_engine.rule_engine:__init__:51 -   Evolution карт: 28
+2026-03-18 17:28:58 | INFO     | rule_engine.rule_engine:__init__:52 -   Hero карт: 4
+2026-03-18 17:28:58 | INFO     | rule_engine.rule_engine:__init__:53 -   Champion карт: 5
+2026-03-18 17:28:58 | INFO     | rule_engine.rule_engine:__init__:205 - RuleEngine инициализирован: vocab_size=75
+2026-03-18 17:28:58 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:28:58 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:28:58 | INFO     | web.app:load_model:150 - Модель загружена успешно
+2026-03-18 17:31:47 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:31:47 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:31:47 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:31:47 | INFO     | rule_engine.rule_engine:__init__:50 - SlotValidator инициализирован
+2026-03-18 17:31:47 | INFO     | rule_engine.rule_engine:__init__:51 -   Evolution карт: 28
+2026-03-18 17:31:47 | INFO     | rule_engine.rule_engine:__init__:52 -   Hero карт: 4
+2026-03-18 17:31:47 | INFO     | rule_engine.rule_engine:__init__:53 -   Champion карт: 5
+2026-03-18 17:31:47 | INFO     | rule_engine.rule_engine:__init__:205 - RuleEngine инициализирован: vocab_size=75
+2026-03-18 17:35:30 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:35:30 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:35:30 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:35:30 | INFO     | rule_engine.rule_engine:__init__:50 - SlotValidator инициализирован
+2026-03-18 17:35:30 | INFO     | rule_engine.rule_engine:__init__:51 -   Evolution карт: 28
+2026-03-18 17:35:30 | INFO     | rule_engine.rule_engine:__init__:52 -   Hero карт: 4
+2026-03-18 17:35:30 | INFO     | rule_engine.rule_engine:__init__:53 -   Champion карт: 5
+2026-03-18 17:35:30 | INFO     | rule_engine.rule_engine:__init__:205 - RuleEngine инициализирован: vocab_size=75
+2026-03-18 17:39:41 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:39:41 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:39:41 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:39:41 | INFO     | rule_engine.rule_engine:__init__:50 - SlotValidator инициализирован
+2026-03-18 17:39:41 | INFO     | rule_engine.rule_engine:__init__:51 -   Evolution карт: 28
+2026-03-18 17:39:41 | INFO     | rule_engine.rule_engine:__init__:52 -   Hero карт: 4
+2026-03-18 17:39:41 | INFO     | rule_engine.rule_engine:__init__:53 -   Champion карт: 5
+2026-03-18 17:39:41 | INFO     | rule_engine.rule_engine:__init__:205 - RuleEngine инициализирован: vocab_size=75
+2026-03-18 17:41:10 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:41:10 | INFO     | __main__:main:39 - ==================================================
+2026-03-18 17:41:10 | INFO     | __main__:main:40 - Запуск веб-приложения
+2026-03-18 17:41:10 | INFO     | __main__:main:41 - ==================================================
+2026-03-18 17:41:10 | INFO     | __main__:main:42 - Хост: 0.0.0.0
+2026-03-18 17:41:10 | INFO     | __main__:main:43 - Порт: 8003
+2026-03-18 17:41:10 | INFO     | web.app:startup_event:163 - Запуск приложения...
+2026-03-18 17:41:11 | INFO     | rule_engine.rule_engine:__init__:50 - SlotValidator инициализирован
+2026-03-18 17:41:11 | INFO     | rule_engine.rule_engine:__init__:51 -   Evolution карт: 28
+2026-03-18 17:41:11 | INFO     | rule_engine.rule_engine:__init__:52 -   Hero карт: 4
+2026-03-18 17:41:11 | INFO     | rule_engine.rule_engine:__init__:53 -   Champion карт: 5
+2026-03-18 17:41:11 | INFO     | rule_engine.rule_engine:__init__:205 - RuleEngine инициализирован: vocab_size=75
+2026-03-18 17:41:11 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:41:11 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:41:11 | INFO     | web.app:load_model:150 - Модель загружена успешно
+2026-03-18 17:41:30 | ERROR    | web.app:generate_deck:295 - Ошибка генерации: '<=' not supported between instances of 'int' and 'list'
+2026-03-18 17:41:30 | ERROR    | web.app:generate_deck:296 - Traceback (most recent call last):
+  File "c:\Users\user\Documents\Neyro\2\web\app.py", line 222, in generate_deck
+    generated = model.generate(
+                ^^^^^^^^^^^^^^^
+  File "c:\Users\user\Documents\Neyro\2\.venv\Lib\site-packages\torch\utils\_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\user\Documents\Neyro\2\model\transformer.py", line 487, in generate
+    mask = rule_engine.create_mask(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\user\Documents\Neyro\2\rule_engine\rule_engine.py", line 254, in create_mask
+    if 0 <= card_id < self.vocab_size:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<=' not supported between instances of 'int' and 'list'
+
+2026-03-18 17:42:52 | ERROR    | web.app:generate_deck:295 - Ошибка генерации: '<=' not supported between instances of 'int' and 'list'
+2026-03-18 17:42:52 | ERROR    | web.app:generate_deck:296 - Traceback (most recent call last):
+  File "c:\Users\user\Documents\Neyro\2\web\app.py", line 222, in generate_deck
+    generated = model.generate(
+                ^^^^^^^^^^^^^^^
+  File "c:\Users\user\Documents\Neyro\2\.venv\Lib\site-packages\torch\utils\_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\user\Documents\Neyro\2\model\transformer.py", line 487, in generate
+    mask = rule_engine.create_mask(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\user\Documents\Neyro\2\rule_engine\rule_engine.py", line 254, in create_mask
+    if 0 <= card_id < self.vocab_size:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<=' not supported between instances of 'int' and 'list'
+
+2026-03-18 17:43:35 | ERROR    | web.app:generate_deck:295 - Ошибка генерации: '<=' not supported between instances of 'int' and 'list'
+2026-03-18 17:43:35 | ERROR    | web.app:generate_deck:296 - Traceback (most recent call last):
+  File "c:\Users\user\Documents\Neyro\2\web\app.py", line 222, in generate_deck
+    generated = model.generate(
+                ^^^^^^^^^^^^^^^
+  File "c:\Users\user\Documents\Neyro\2\.venv\Lib\site-packages\torch\utils\_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\user\Documents\Neyro\2\model\transformer.py", line 487, in generate
+    if step > 0:
+           ^^^^^
+  File "c:\Users\user\Documents\Neyro\2\rule_engine\rule_engine.py", line 254, in create_mask
+    if 0 <= card_id < self.vocab_size:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<=' not supported between instances of 'int' and 'list'
+
+2026-03-18 17:45:01 | ERROR    | web.app:generate_deck:295 - Ошибка генерации: '<=' not supported between instances of 'int' and 'list'
+2026-03-18 17:45:01 | ERROR    | web.app:generate_deck:296 - Traceback (most recent call last):
+  File "c:\Users\user\Documents\Neyro\2\web\app.py", line 222, in generate_deck
+    generated = model.generate(
+                ^^^^^^^^^^^^^^^
+  File "c:\Users\user\Documents\Neyro\2\.venv\Lib\site-packages\torch\utils\_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\user\Documents\Neyro\2\model\transformer.py", line 487, in generate
+    if step > 0:
+           ^^^^^
+  File "c:\Users\user\Documents\Neyro\2\rule_engine\rule_engine.py", line 254, in create_mask
+    if 0 <= card_id < self.vocab_size:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<=' not supported between instances of 'int' and 'list'
+
+2026-03-18 17:46:14 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:46:14 | INFO     | __main__:main:39 - ==================================================
+2026-03-18 17:46:14 | INFO     | __main__:main:40 - Запуск веб-приложения
+2026-03-18 17:46:14 | INFO     | __main__:main:41 - ==================================================
+2026-03-18 17:46:14 | INFO     | __main__:main:42 - Хост: 0.0.0.0
+2026-03-18 17:46:14 | INFO     | __main__:main:43 - Порт: 8002
+2026-03-18 17:46:14 | INFO     | web.app:startup_event:163 - Запуск приложения...
+2026-03-18 17:46:15 | INFO     | rule_engine.rule_engine:__init__:50 - SlotValidator инициализирован
+2026-03-18 17:46:15 | INFO     | rule_engine.rule_engine:__init__:51 -   Evolution карт: 28
+2026-03-18 17:46:15 | INFO     | rule_engine.rule_engine:__init__:52 -   Hero карт: 4
+2026-03-18 17:46:15 | INFO     | rule_engine.rule_engine:__init__:53 -   Champion карт: 5
+2026-03-18 17:46:15 | INFO     | rule_engine.rule_engine:__init__:205 - RuleEngine инициализирован: vocab_size=75
+2026-03-18 17:46:15 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:46:15 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:46:15 | INFO     | web.app:load_model:150 - Модель загружена успешно
+2026-03-18 17:46:30 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 17:46:30 | INFO     | __main__:main:39 - ==================================================
+2026-03-18 17:46:30 | INFO     | __main__:main:40 - Запуск веб-приложения
+2026-03-18 17:46:30 | INFO     | __main__:main:41 - ==================================================
+2026-03-18 17:46:30 | INFO     | __main__:main:42 - Хост: 0.0.0.0
+2026-03-18 17:46:30 | INFO     | __main__:main:43 - Порт: 8000
+2026-03-18 17:46:30 | INFO     | web.app:startup_event:163 - Запуск приложения...
+2026-03-18 17:46:30 | INFO     | rule_engine.rule_engine:__init__:50 - SlotValidator инициализирован
+2026-03-18 17:46:30 | INFO     | rule_engine.rule_engine:__init__:51 -   Evolution карт: 28
+2026-03-18 17:46:30 | INFO     | rule_engine.rule_engine:__init__:52 -   Hero карт: 4
+2026-03-18 17:46:30 | INFO     | rule_engine.rule_engine:__init__:53 -   Champion карт: 5
+2026-03-18 17:46:30 | INFO     | rule_engine.rule_engine:__init__:205 - RuleEngine инициализирован: vocab_size=75
+2026-03-18 17:46:30 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 17:46:30 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=75
+2026-03-18 17:46:30 | INFO     | web.app:load_model:150 - Модель загружена успешно
+2026-03-18 21:05:14 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 21:05:14 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 21:06:07 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 21:06:10 | INFO     | __main__:run_etl:28 - ==================================================
+2026-03-18 21:06:10 | INFO     | __main__:run_etl:29 - Запуск ETL Pipeline
+2026-03-18 21:06:10 | INFO     | __main__:run_etl:30 - ==================================================
+2026-03-18 21:06:10 | INFO     | __main__:run_etl:33 - Инициализация базы данных...
+2026-03-18 21:06:10 | INFO     | data.database:__init__:35 - Инициализация БД: c:\Users\user\Documents\Neyro\royaledeks-main\2\data\clash_royale.db
+2026-03-18 21:06:10 | INFO     | data.database:create_tables:130 - Таблицы БД созданы
+2026-03-18 21:06:10 | INFO     | __main__:run_etl:39 - Инициализация парсера...
+2026-03-18 21:06:10 | INFO     | data.parser:__init__:64 - ClashRoyaleAPI инициализирован
+2026-03-18 21:06:10 | INFO     | __main__:run_etl:44 - Загрузка карт...
+2026-03-18 21:06:10 | INFO     | data.parser:get_all_cards:209 - Загрузка карт из Fandom MediaWiki API...
+2026-03-18 21:06:21 | WARNING  | data.parser:_request:79 - Ошибка запроса https://clashroyale.fandom.com/api.php?action=parse&page=Cards&format=json (попытка 1/3): HTTPSConnectionPool(host='clashroyale.fandom.com', port=443): Max retries exceeded with url: /api.php?action=parse&page=Cards&format=json (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001FA3FC029C0>: Failed to resolve 'clashroyale.fandom.com' ([Errno 11001] getaddrinfo failed)"))
+2026-03-18 21:06:33 | WARNING  | data.parser:_request:79 - Ошибка запроса https://clashroyale.fandom.com/api.php?action=parse&page=Cards&format=json (попытка 2/3): HTTPSConnectionPool(host='clashroyale.fandom.com', port=443): Max retries exceeded with url: /api.php?action=parse&page=Cards&format=json (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001FA401F45C0>: Failed to resolve 'clashroyale.fandom.com' ([Errno 11001] getaddrinfo failed)"))
+2026-03-18 21:06:38 | INFO     | data.parser:get_all_cards:218 - Получено карт: 141
+2026-03-18 21:06:38 | INFO     | __main__:run_etl:52 - Сохранение 141 карт в БД...
+2026-03-18 21:06:38 | INFO     | __main__:run_etl:58 - ✓ Карты сохранены: 141
+2026-03-18 21:06:38 | INFO     | __main__:run_etl:61 - Загрузка колод...
+2026-03-18 21:06:38 | INFO     | data.parser:_parse_royaleapi_decks:222 - Парсинг колод из RoyaleAPI...
+2026-03-18 21:06:41 | INFO     | data.parser:_parse_royaleapi_decks:261 - RoyaleAPI: найдено колод 20
+2026-03-18 21:06:41 | INFO     | data.parser:_parse_deckshop_decks:265 - Парсинг колод из DeckShop...
+2026-03-18 21:06:43 | INFO     | data.parser:_parse_deckshop_decks:303 - DeckShop: найдено колод 72
+2026-03-18 21:06:43 | INFO     | data.parser:get_top_decks:320 - Итоговое количество колод (dedup): 88
+2026-03-18 21:06:43 | INFO     | __main__:run_etl:69 - Сохранение 88 колод в БД...
+2026-03-18 21:06:43 | INFO     | __main__:run_etl:93 - ✓ Колоды сохранены: 46
+2026-03-18 21:06:43 | INFO     | __main__:run_etl:97 - ==================================================
+2026-03-18 21:06:43 | INFO     | __main__:run_etl:98 - Статистика БД:
+2026-03-18 21:06:43 | INFO     | __main__:run_etl:99 -   Всего карт: 146
+2026-03-18 21:06:43 | INFO     | __main__:run_etl:100 -   Всего колод: 76
+2026-03-18 21:06:43 | INFO     | __main__:run_etl:101 -   Средний winrate: 49.80%
+2026-03-18 21:06:43 | INFO     | __main__:run_etl:102 - ==================================================
+2026-03-18 21:06:43 | INFO     | __main__:run_etl:104 - ✓ ETL Pipeline завершён успешно
+2026-03-18 21:08:03 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 21:08:06 | INFO     | __main__:run_training:25 - ==================================================
+2026-03-18 21:08:06 | INFO     | __main__:run_training:26 - Запуск обучения модели
+2026-03-18 21:08:06 | INFO     | __main__:run_training:27 - ==================================================
+2026-03-18 21:08:06 | INFO     | __main__:run_training:30 - Загрузка данных из БД...
+2026-03-18 21:08:06 | INFO     | data.database:__init__:35 - Инициализация БД: c:\Users\user\Documents\Neyro\royaledeks-main\2\data\clash_royale.db
+2026-03-18 21:08:06 | INFO     | __main__:run_training:41 - В БД: 146 карт, 76 колод
+2026-03-18 21:08:06 | INFO     | data.database:get_filtered_decks:346 - Получено 76 колод после фильтрации
+2026-03-18 21:08:06 | INFO     | __main__:run_training:53 - Загружено 76 колод после фильтрации
+2026-03-18 21:08:06 | INFO     | __main__:run_training:56 - Предобработка данных...
+2026-03-18 21:08:06 | INFO     | data.preprocessor:build:45 - Словарь построен: 146 карт
+2026-03-18 21:08:06 | INFO     | data.preprocessor:__init__:116 - Кодировщик инициализирован, размер признаков: 11
+2026-03-18 21:08:06 | INFO     | data.preprocessor:__init__:204 - Препроцессор инициализирован
+2026-03-18 21:08:06 | INFO     | data.preprocessor:create_training_sequences:349 - Создано 46 обучающих последовательностей
+2026-03-18 21:08:06 | INFO     | data.preprocessor:create_training_sequences:350 -   Input shape: torch.Size([46, 8])
+2026-03-18 21:08:06 | INFO     | data.preprocessor:create_training_sequences:351 -   Target shape: torch.Size([46, 8])
+2026-03-18 21:08:06 | INFO     | data.preprocessor:create_training_sequences:352 -   Features shape: torch.Size([46, 8, 11])
+2026-03-18 21:08:06 | INFO     | __main__:run_training:67 - Создание DataLoader'ов...
+2026-03-18 21:08:06 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 36 образцов
+2026-03-18 21:08:06 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 4 образцов
+2026-03-18 21:08:06 | INFO     | train.dataset:__init__:43 - Dataset инициализирован: 6 образцов
+2026-03-18 21:08:06 | INFO     | train.dataset:create_dataloaders:173 - Разбиение данных:
+2026-03-18 21:08:06 | INFO     | train.dataset:create_dataloaders:174 -   Train: 36 (80%)
+2026-03-18 21:08:06 | INFO     | train.dataset:create_dataloaders:175 -   Val:   4 (10%)
+2026-03-18 21:08:06 | INFO     | train.dataset:create_dataloaders:176 -   Test:  6 (10%)
+2026-03-18 21:08:06 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=8, num_batches=4
+2026-03-18 21:08:06 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=8, num_batches=0
+2026-03-18 21:08:06 | INFO     | train.dataset:__init__:101 - DataLoader инициализирован: batch_size=8, num_batches=0
+2026-03-18 21:08:06 | INFO     | __main__:run_training:77 - Инициализация модели...
+2026-03-18 21:08:06 | INFO     | model.transformer:__init__:244 - Transformer Decoder инициализирован: embedding_dim=128, num_heads=8, num_layers=6
+2026-03-18 21:08:06 | INFO     | model.transformer:__init__:341 - Модель DeckGenerator инициализирована: vocab_size=146
+2026-03-18 21:08:06 | INFO     | __main__:run_training:91 - Параметров модели: 1,263,762 (trainable: 1,263,762)
+2026-03-18 21:08:08 | INFO     | train.trainer:__init__:78 - Trainer инициализирован: device=cpu
+2026-03-18 21:08:08 | INFO     | __main__:run_training:97 - Начало обучения...
+2026-03-18 21:08:08 | INFO     | train.trainer:fit:226 - Начало обучения: 50 эпох
+2026-03-18 21:08:08 | INFO     | train.trainer:fit:227 - Сохранение лучшей модели в: c:\Users\user\Documents\Neyro\royaledeks-main\2\models\best_model.pt
+2026-03-18 21:08:08 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 21:08:08 | INFO     | train.trainer:fit:243 - Epoch 1/50 | Train Loss: 5.3661 | Train PPL: 214.03 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.5s
+2026-03-18 21:08:09 | INFO     | train.trainer:save_checkpoint:319 - Чекпоинт сохранён: c:\Users\user\Documents\Neyro\royaledeks-main\2\models\best_model.pt
+2026-03-18 21:08:09 | INFO     | train.trainer:fit:272 - ✓ Новая лучшая модель сохранена (val_loss=0.0000)
+2026-03-18 21:08:09 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 21:08:09 | INFO     | train.trainer:fit:243 - Epoch 2/50 | Train Loss: 5.1258 | Train PPL: 168.31 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.4s
+2026-03-18 21:08:09 | INFO     | train.trainer:fit:275 - Early stopping counter: 1/10
+2026-03-18 21:08:09 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 21:08:09 | INFO     | train.trainer:fit:243 - Epoch 3/50 | Train Loss: 4.9511 | Train PPL: 141.34 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.4s
+2026-03-18 21:08:09 | INFO     | train.trainer:fit:275 - Early stopping counter: 2/10
+2026-03-18 21:08:10 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 21:08:10 | INFO     | train.trainer:fit:243 - Epoch 4/50 | Train Loss: 4.8153 | Train PPL: 123.38 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.4s
+2026-03-18 21:08:10 | INFO     | train.trainer:fit:275 - Early stopping counter: 3/10
+2026-03-18 21:08:10 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 21:08:10 | INFO     | train.trainer:fit:243 - Epoch 5/50 | Train Loss: 4.7120 | Train PPL: 111.28 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.4s
+2026-03-18 21:08:10 | INFO     | train.trainer:fit:275 - Early stopping counter: 4/10
+2026-03-18 21:08:10 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 21:08:10 | INFO     | train.trainer:fit:243 - Epoch 6/50 | Train Loss: 4.5278 | Train PPL: 92.55 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.4s
+2026-03-18 21:08:10 | INFO     | train.trainer:fit:275 - Early stopping counter: 5/10
+2026-03-18 21:08:11 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 21:08:11 | INFO     | train.trainer:fit:243 - Epoch 7/50 | Train Loss: 4.5663 | Train PPL: 96.18 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.4s
+2026-03-18 21:08:11 | INFO     | train.trainer:fit:275 - Early stopping counter: 6/10
+2026-03-18 21:08:11 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 21:08:11 | INFO     | train.trainer:fit:243 - Epoch 8/50 | Train Loss: 4.5450 | Train PPL: 94.16 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.4s
+2026-03-18 21:08:11 | INFO     | train.trainer:fit:275 - Early stopping counter: 7/10
+2026-03-18 21:08:12 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 21:08:12 | INFO     | train.trainer:fit:243 - Epoch 9/50 | Train Loss: 4.4854 | Train PPL: 88.71 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.4s
+2026-03-18 21:08:12 | INFO     | train.trainer:fit:275 - Early stopping counter: 8/10
+2026-03-18 21:08:12 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 21:08:12 | INFO     | train.trainer:fit:243 - Epoch 10/50 | Train Loss: 4.4760 | Train PPL: 87.89 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.4s
+2026-03-18 21:08:12 | INFO     | train.trainer:fit:275 - Early stopping counter: 9/10
+2026-03-18 21:08:12 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 21:08:12 | INFO     | train.trainer:fit:243 - Epoch 11/50 | Train Loss: 4.4377 | Train PPL: 84.58 | Val Loss: 0.0000 | Val PPL: 1.00 | Time: 0.4s
+2026-03-18 21:08:12 | INFO     | train.trainer:fit:275 - Early stopping counter: 10/10
+2026-03-18 21:08:12 | INFO     | train.trainer:fit:278 - Ранняя остановка на эпохе 11
+2026-03-18 21:08:12 | INFO     | train.trainer:fit:282 - Обучение завершено за 4.3s
+2026-03-18 21:08:12 | INFO     | train.trainer:fit:283 - Лучший val_loss: 0.0000
+2026-03-18 21:08:12 | INFO     | __main__:run_training:106 - Сохранение препроцессора...
+2026-03-18 21:08:12 | INFO     | data.preprocessor:save:66 - Словарь сохранён: c:\Users\user\Documents\Neyro\royaledeks-main\2\data\preprocessor\vocabulary.pkl
+2026-03-18 21:08:12 | INFO     | data.preprocessor:save:397 - Препроцессор сохранён: c:\Users\user\Documents\Neyro\royaledeks-main\2\data\preprocessor
+2026-03-18 21:08:12 | INFO     | __main__:run_training:114 - ==================================================
+2026-03-18 21:08:12 | INFO     | __main__:run_training:115 - Обучение завершено!
+2026-03-18 21:08:12 | INFO     | __main__:run_training:116 - Лучший val_loss: 0.0000
+2026-03-18 21:08:12 | INFO     | __main__:run_training:117 - Эпох пройдено: 11
+2026-03-18 21:08:12 | INFO     | __main__:run_training:118 - ==================================================
+2026-03-18 21:08:12 | INFO     | __main__:run_training:121 - Тестирование на test выборке...
+2026-03-18 21:08:12 | WARNING  | train.trainer:validate:165 - Пустой validation dataloader, пропускаем валидацию
+2026-03-18 21:08:12 | INFO     | __main__:run_training:123 - Test Loss: 0.0000 | Test Perplexity: 1.00
+2026-03-18 21:08:30 | INFO     | utils.logger:setup_logger:45 - Логгер инициализирован
+2026-03-18 21:08:33 | INFO     | __main__:main:39 - ==================================================
+2026-03-18 21:08:33 | INFO     | __main__:main:40 - Запуск веб-приложения
+2026-03-18 21:08:33 | INFO     | __main__:main:41 - ==================================================
+2026-03-18 21:08:33 | INFO     | __main__:main:42 - Хост: 0.0.0.0
+2026-03-18 21:08:33 | INFO     | __main__:main:43 - Порт: 8000
+2026-03-18 21:08:33 | INFO     | data.database:__init__:35 - Инициализация БД: c:\Users\user\Documents\Neyro\royaledeks-main\2\data\clash_royale.db
+2026-03-18 21:08:33 | INFO     | data.database:get_filtered_decks:346 - Получено 76 колод после фильтрации
+2026-03-18 21:08:33 | INFO     | web.app:load_data:200 - Web: загружено карт 146, валидных колод 37
