@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Royale Deck Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; background:#0f172a; color:#e2e8f0; margin:0; }
+        .container { max-width:1100px; margin:0 auto; padding:24px; }
+        .panel { background:#1e293b; border-radius:12px; padding:16px; margin-bottom:16px; }
+        label { display:block; margin-bottom:6px; font-weight:700; }
+        select,input,button { width:100%; padding:10px; border-radius:8px; border:1px solid #475569; background:#0f172a; color:#e2e8f0; }
+        .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+        .deck { border:1px solid #334155; border-radius:10px; padding:12px; margin-bottom:12px; }
+        .cards { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+        .card { background:#0b1223; border-radius:8px; padding:8px; font-size:13px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>⚔️ Clash Royale Deck Generator</h1>
+    <div class="panel">
+        <div class="grid">
+            <div>
+                <label for="numDecks">Количество колод</label>
+                <input id="numDecks" type="number" value="3" min="1" max="20">
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h3>Входные карты (0-7, по слотам 1..7)</h3>
+        <div class="grid" id="inputSlots"></div>
+        <button onclick="generateDecks()" style="margin-top:12px;">🎴 Сгенерировать</button>
+    </div>
+
+    <div class="panel">
+        <strong id="status">Загрузка...</strong>
+    </div>
+
+    <div id="decks"></div>
+</div>
+
+<script>
+let cards = [];
+
+async function init() {
+    const stats = await fetch('/api/stats').then(r => r.json());
+    document.getElementById('status').textContent = stats.model_loaded
+        ? `Готово: карт ${stats.vocab_size}`
+        : 'Нет данных для генерации';
+
+    const payload = await fetch('/api/cards').then(r => r.json());
+    cards = payload.cards || [];
+
+    const slots = document.getElementById('inputSlots');
+    for (let i = 0; i < 7; i++) {
+        const wrap = document.createElement('div');
+        wrap.innerHTML = `<label>Слот ${i+1}</label><select id="slot_${i}"><option value="">-- Пусто --</option></select>`;
+        slots.appendChild(wrap);
+        const sel = wrap.querySelector('select');
+        cards.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.card_id;
+            const evo = c.is_evolution ? ' [EVO]' : '';
+            const hero = (c.is_hero || c.is_champion) ? ' [HERO]' : '';
+            opt.textContent = `${c.name}${evo}${hero}`;
+            sel.appendChild(opt);
+        });
+    }
+}
+
+async function generateDecks() {
+    const input_cards = [];
+    for (let i = 0; i < 7; i++) {
+        const value = document.getElementById(`slot_${i}`).value;
+        if (!value) break;
+        input_cards.push(parseInt(value));
+    }
+
+    const body = {
+        num_decks: parseInt(document.getElementById('numDecks').value),
+        input_cards
+    };
+
+    const decksEl = document.getElementById('decks');
+    decksEl.innerHTML = 'Генерация...';
+
+    const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(body)
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+        decksEl.innerHTML = `<div class="panel">Ошибка: ${data.detail || 'unknown'}</div>`;
+        return;
+    }
+
+    decksEl.innerHTML = data.decks.map((d, idx) => `
+        <div class="deck">
+            <h3>Колода #${idx + 1} | 💧${d.avg_elixir}</h3>
+            <div>Валидация: ${d.validation_message}</div>
+            <div class="cards">
+                ${d.cards.map((c, i) => `<div class="card">${i+1}. ${c}</div>`).join('')}
+            </div>
+        </div>
+    `).join('');
+}
+
+init();
+</script>
+</body>
+</html>
